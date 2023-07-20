@@ -2,17 +2,17 @@ import 'dart:io';
 
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:todo_app/features/todo/data/database/model/project_model.dart';
-import 'package:todo_app/features/todo/data/database/model/todo_item_model.dart';
+import 'package:todo_app/features/todo/data/model/project_model.dart';
 
 class IsarDatasource {
-  late Directory dir;
-  late Isar instance;
+  late Directory _dir;
+  late Isar _instance;
 
-  void init() async {
-    dir = await getApplicationDocumentsDirectory();
-    instance = await Isar.open([ProjectModelSchema], directory: dir.path);
-    instance = await Isar.open([TodoItemModelSchema], directory: dir.path); 
-    //MUST BE CollectionSchema, look tutorial for this
+  Future<Isar> init() async {
+    if (Isar.instanceNames.isEmpty) {
+      _dir = await getApplicationDocumentsDirectory();
+      _instance = await Isar.open([ProjectModelSchema], inspector: true, directory: _dir.path);
+    }
+    return _instance;
   }
 }

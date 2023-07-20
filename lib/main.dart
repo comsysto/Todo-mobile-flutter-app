@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/route_generator.dart';
 import 'package:todo_app/core/style/colors.dart';
 
-void main() => runApp(const MainApp());
+void main() => runApp(const ProviderScope(child: MainApp()));
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});

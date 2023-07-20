@@ -15,6 +15,26 @@ class NewTaskScreen extends HookConsumerWidget {
     final titleController = useTextEditingController();
     final dateController = useTextEditingController();
 
+    /* Future.microtask(() async {
+      final testRepo = ref.watch(projectRepositoryProvider);
+      final todoRepo = ref.watch(todoRepositoryProvider);
+
+      final task = TodoItem('Test title', 'Test description', DateTime.now());
+      final project = Project('Test project')..todoList = [task];
+      final additionalTodo = TodoItem(
+        'Another',
+        'Here I am',
+        DateTime.now().add(const Duration(hours: 1)),
+      );
+
+      await testRepo.createNewProject(project);
+      await Future.delayed(const Duration(seconds: 10));
+      
+      final projects = await testRepo.getAllProjects();
+      await todoRepo.createNewTodo(projects.first.id!, additionalTodo);
+      print('ADDED TODO');
+    }); */
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -59,14 +79,12 @@ class NewTaskScreen extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: TextButton(
                       onPressed: () => _popToTaskScreen(context),
                       child: Text(
                         'Cancel',
-                        style: mediumTextStyle.copyWith(
-                            color: const Color(0xFFDE0000)),
+                        style: mediumTextStyle.copyWith(color: const Color(0xFFDE0000)),
                       ),
                     ),
                   ),

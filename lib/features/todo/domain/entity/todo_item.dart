@@ -1,15 +1,14 @@
-import 'package:todo_app/features/todo/domain/entity/project.dart';
-
 class TodoItem {
   final String title;
-  final String description;
-  final DateTime dueDate;
-  final Project project;
+  final String? description;
+  final DateTime? dueDate;
 
   const TodoItem(
     this.title,
     this.description,
     this.dueDate,
-    this.project,
   );
+
+  @override
+  String toString() => '$title, $description, ${dueDate?.toIso8601String()}';
 }

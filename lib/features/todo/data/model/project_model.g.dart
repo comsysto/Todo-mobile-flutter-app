@@ -34,21 +34,7 @@ const ProjectModelSchema = CollectionSchema(
   deserialize: _projectModelDeserialize,
   deserializeProp: _projectModelDeserializeProp,
   idName: r'id',
-  indexes: {
-    r'title': IndexSchema(
-      id: -7636685945352118059,
-      name: r'title',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'title',
-          type: IndexType.value,
-          caseSensitive: true,
-        )
-      ],
-    )
-  },
+  indexes: {},
   links: {},
   embeddedSchemas: {r'TodoItemModel': TodoItemModelSchema},
   getId: _projectModelGetId,
@@ -63,24 +49,14 @@ int _projectModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.title.length * 3;
+  bytesCount += 3 + object.todoList.length * 3;
   {
-    final value = object.title;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final list = object.todoList;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        final offsets = allOffsets[TodoItemModel]!;
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount +=
-              TodoItemModelSchema.estimateSize(value, offsets, allOffsets);
-        }
-      }
+    final offsets = allOffsets[TodoItemModel]!;
+    for (var i = 0; i < object.todoList.length; i++) {
+      final value = object.todoList[i];
+      bytesCount +=
+          TodoItemModelSchema.estimateSize(value, offsets, allOffsets);
     }
   }
   return bytesCount;
@@ -107,15 +83,17 @@ ProjectModel _projectModelDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = ProjectModel();
-  object.id = id;
-  object.title = reader.readStringOrNull(offsets[0]);
-  object.todoList = reader.readObjectList<TodoItemModel>(
-    offsets[1],
-    TodoItemModelSchema.deserialize,
-    allOffsets,
-    TodoItemModel(),
+  final object = ProjectModel(
+    reader.readString(offsets[0]),
+    reader.readObjectList<TodoItemModel>(
+          offsets[1],
+          TodoItemModelSchema.deserialize,
+          allOffsets,
+          TodoItemModel(),
+        ) ??
+        [],
   );
+  object.id = id;
   return object;
 }
 
@@ -127,14 +105,15 @@ P _projectModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readObjectList<TodoItemModel>(
-        offset,
-        TodoItemModelSchema.deserialize,
-        allOffsets,
-        TodoItemModel(),
-      )) as P;
+            offset,
+            TodoItemModelSchema.deserialize,
+            allOffsets,
+            TodoItemModel(),
+          ) ??
+          []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -158,14 +137,6 @@ extension ProjectModelQueryWhereSort
   QueryBuilder<ProjectModel, ProjectModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhere> anyTitle() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'title'),
-      );
     });
   }
 }
@@ -238,163 +209,6 @@ extension ProjectModelQueryWhere
       ));
     });
   }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'title',
-        value: [null],
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'title',
-        lower: [null],
-        includeLower: false,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleEqualTo(
-      String? title) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'title',
-        value: [title],
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleNotEqualTo(
-      String? title) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'title',
-              lower: [],
-              upper: [title],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'title',
-              lower: [title],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'title',
-              lower: [title],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'title',
-              lower: [],
-              upper: [title],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleGreaterThan(
-    String? title, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'title',
-        lower: [title],
-        includeLower: include,
-        upper: [],
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleLessThan(
-    String? title, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'title',
-        lower: [],
-        upper: [title],
-        includeUpper: include,
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleBetween(
-    String? lowerTitle,
-    String? upperTitle, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'title',
-        lower: [lowerTitle],
-        includeLower: includeLower,
-        upper: [upperTitle],
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleStartsWith(
-      String TitlePrefix) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.between(
-        indexName: r'title',
-        lower: [TitlePrefix],
-        upper: ['$TitlePrefix\u{FFFFF}'],
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause> titleIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'title',
-        value: [''],
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterWhereClause>
-      titleIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'title',
-              upper: [''],
-            ))
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'title',
-              lower: [''],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.greaterThan(
-              indexName: r'title',
-              lower: [''],
-            ))
-            .addWhereClause(IndexWhereClause.lessThan(
-              indexName: r'title',
-              upper: [''],
-            ));
-      }
-    });
-  }
 }
 
 extension ProjectModelQueryFilter
@@ -452,26 +266,8 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'title',
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'title',
-      ));
-    });
-  }
-
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -485,7 +281,7 @@ extension ProjectModelQueryFilter
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
       titleGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -500,7 +296,7 @@ extension ProjectModelQueryFilter
   }
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -515,8 +311,8 @@ extension ProjectModelQueryFilter
   }
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -600,24 +396,6 @@ extension ProjectModelQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'title',
         value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      todoListIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'todoList',
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      todoListIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'todoList',
       ));
     });
   }
@@ -785,13 +563,13 @@ extension ProjectModelQueryProperty
     });
   }
 
-  QueryBuilder<ProjectModel, String?, QQueryOperations> titleProperty() {
+  QueryBuilder<ProjectModel, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });
   }
 
-  QueryBuilder<ProjectModel, List<TodoItemModel>?, QQueryOperations>
+  QueryBuilder<ProjectModel, List<TodoItemModel>, QQueryOperations>
       todoListProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'todoList');

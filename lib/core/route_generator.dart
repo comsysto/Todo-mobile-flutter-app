@@ -4,6 +4,7 @@ import 'package:todo_app/features/home/presentation/screen/start_screen.dart';
 import 'package:todo_app/features/settings/presentation/screen/settings_screen.dart';
 import 'package:todo_app/features/todo/presentation/screen/new_task_screen.dart';
 import 'package:todo_app/features/todo/presentation/screen/task_screen.dart';
+import 'package:todo_app/features/todo/presentation/screen/test_screen.dart';
 
 class RouteGenerator {
   static const startScreen = '/';
@@ -11,6 +12,7 @@ class RouteGenerator {
   static const taskScreen = '/tasks';
   static const newTaskScreen = '/newTask';
   static const settingsScreen = '/settings';
+  static const testScreen = '/test';
 
   RouteGenerator._();
 
@@ -26,6 +28,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const NewTaskScreen());
       case settingsScreen:
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
+      case testScreen:
+        return MaterialPageRoute(builder: (_) => const TestScreen());
       default:
         throw Exception('Route not found...');
     }

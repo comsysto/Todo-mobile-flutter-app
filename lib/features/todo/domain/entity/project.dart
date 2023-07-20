@@ -1,8 +1,16 @@
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 
 class Project {
+  int? id;
   final String title;
-  final List<TodoItem> todoList;
+  List<TodoItem>? todoList;
 
-  const Project(this.title, this.todoList);
+  Project(this.title, [this.id, this.todoList]);
+
+  @override
+  String toString() {
+    final todoStringList = StringBuffer();
+    todoList?.forEach((todo) => todoStringList.write('${todo.toString()}\n'));
+    return '$id, $title, ${todoStringList.toString()}';
+  }
 }

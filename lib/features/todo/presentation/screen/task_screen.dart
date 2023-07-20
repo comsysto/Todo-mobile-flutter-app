@@ -44,7 +44,7 @@ class TaskScreen extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               const Text(
-                'Let\'s make a habits together',
+                'Let\'s make habits together',
                 style: titleTextStyle,
               ),
               const SizedBox(height: 30),
