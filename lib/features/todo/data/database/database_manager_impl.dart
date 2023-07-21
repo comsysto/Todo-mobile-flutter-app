@@ -1,50 +1,67 @@
-import 'package:isar/isar.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_app/features/todo/data/database/database_manager.dart';
-import 'package:todo_app/features/todo/data/model/project_model.dart';
-import 'package:todo_app/features/todo/data/model/todo_item_model.dart';
+import 'package:todo_app/features/todo/data/database/model/project_object.dart';
+import 'package:todo_app/features/todo/data/database/model/todo_item_object.dart';
 
-class DatabaseManagerImpl implements DatabaseManager {
-  final Isar _dbInstance;
-
-  const DatabaseManagerImpl(this._dbInstance);
+class DatabaseManagerImpl implements DatabaseManager{
+  static const projectsBox = 'projects';
 
   @override
-  Future<List<ProjectModel>> getAllProjects() async =>
-      _dbInstance.projectModels.where().findAllSync();
-
-  @override
-  Future<void> insertNewProject(final ProjectModel project) async =>
-      _dbInstance.writeTxnSync(() => _dbInstance.projectModels.putSync(project));
-
-  @override
-  Future<void> removeProjectById(int id) async =>
-      _dbInstance.writeTxnSync(() => _dbInstance.projectModels.delete(id));
-
-  @override
-  Future<void> updateProject(ProjectModel project) async =>
-      _dbInstance.writeTxnSync(() => _dbInstance.projectModels.putSync(project));
-
-  @override
-  Future<List<TodoItemModel>> getAllTodosForProject(final int projectId) async {
-    final project = await _dbInstance.projectModels.get(projectId);
-    return project?.todoList.toList() ?? [];
+  Future<List<ProjectObject>> getAllProjects() async {
+    final projects = await Hive.openBox<ProjectObject>(projectsBox);
+    final projectList = projects.values.toList();
+    print('=========================');
+    print('PROJECT LIST:');
+    projectList.forEach((project) => print(project));
+    print('=========================');
+    return projectList;
   }
 
   @override
-  Future<void> insertNewTodo(final int projectId, final TodoItemModel todo) async {
-    final project = await _dbInstance.projectModels.get(projectId);
-    project?.todoList.toList(growable: true).add(todo);
-    print('MANAGER, TODO ITEM ADDED');
-    project?.todoList.forEach((element) => 'Todo in project: $element');
-
-    _dbInstance.writeTxnSync(() => _dbInstance.projectModels.putSync(project!));
+  Future<List<TodoItemObject>> getAllTodosForProject(final int projectId) async {
+    final projects = await Hive.openBox<ProjectObject>(projectsBox);
+    final list = projects.get(projectId)?.todoList ?? [];
+    print('=========================');
+    print('TASK LIST FOR PROJECT WITH ID $projectId:');
+    list.forEach((todo) => print(todo));
+    print('=========================');
+    return list;
   }
 
   @override
-  Future<void> removeTodo(final int projectId, final TodoItemModel todoModel) async {
-    final project = await _dbInstance.projectModels.get(projectId);
-    project?.todoList.toList().removeWhere((todo) => todo == todoModel);
+  Future<void> insertNewProject(final ProjectObject project) async {
+    final projects = await Hive.openBox<ProjectObject>(projectsBox);
+    print('ABOUT TO ADD NEW PROJECT');
+    await projects.add(project);
+    //await projects.put(project.id, project);
+    print('NEW PROJECT ADDED');
+  }
 
-    _dbInstance.writeTxnSync(() => _dbInstance.projectModels.putSync(project!));
+  @override
+  Future<void> insertNewTodo(final int projectId, final TodoItemObject todo) async {
+    final projects = await Hive.openBox<ProjectObject>(projectsBox);
+    final project = projects.get(projectId);
+    print('ABOUT TO ADD NEW TASK');
+    if (project != null) {
+      project.todoList.add(todo);
+      await projects.put(projectId, project);
+    }
+    print('NEW TASK ADDED');
+  }
+
+  @override
+  Future<void> removeProjectById(final int projectId) async {
+    final projects = await Hive.openBox<ProjectObject>(projectsBox);
+    print('ABOUT TO REMOVE PROJECT WITH ID $projectId');
+    await projects.delete(projectId);
+    print('PROJECT REMOVED');
+  }
+
+  @override
+  Future<void> removeTodo(final int projectId, final TodoItemObject todoToDelete) async {
+    final projects = await Hive.openBox<ProjectObject>(projectsBox);
+    print('ABOUT TO REMOVE TODO');
+    projects.get(projectId)?.todoList.removeWhere((todo) => todo.id == todoToDelete.id);
+    print('TODO REMOVED');
   }
 }

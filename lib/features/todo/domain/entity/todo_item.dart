@@ -1,14 +1,10 @@
 class TodoItem {
+  int? id;
   final String title;
-  final String? description;
   final DateTime? dueDate;
 
-  const TodoItem(
-    this.title,
-    this.description,
-    this.dueDate,
-  );
+  TodoItem({required this.title, required this.dueDate, this.id});
 
   @override
-  String toString() => '$title, $description, ${dueDate?.toIso8601String()}';
+  String toString() => '$id, $title, ${dueDate?.toIso8601String()}';
 }

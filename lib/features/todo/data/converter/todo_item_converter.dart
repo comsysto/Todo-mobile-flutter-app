@@ -1,24 +1,20 @@
 import 'package:todo_app/features/todo/data/converter/converter.dart';
-import 'package:todo_app/features/todo/data/model/todo_item_model.dart';
+import 'package:todo_app/features/todo/data/database/model/todo_item_object.dart';
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 
-class TodoItemModelToEntityConverter implements Converter<TodoItemModel, TodoItem> {
+class TodoItemObjectToEntityConverter implements Converter<TodoItemObject, TodoItem> {
   @override
-  TodoItem convert(final TodoItemModel model) {
-    return TodoItem(
-      model.title,
-      model.description,
-      model.dueDate,
-    );
-  }
+  TodoItem convert(final TodoItemObject object) => TodoItem(
+        id: object.id,
+        title: object.title,
+        dueDate: DateTime.now(),
+      );
 }
 
-class TodoItemEntityToModelConverter implements Converter<TodoItem, TodoItemModel> {
+class TodoItemEntityToObjectConverter implements Converter<TodoItem, TodoItemObject> {
   @override
-  TodoItemModel convert(final TodoItem entity) {
-    return TodoItemModel()
-      ..title = entity.title
-      ..description = entity.description
-      ..dueDate = entity.dueDate;
-  }
+  TodoItemObject convert(final TodoItem entity) => TodoItemObject(
+        id: entity.id!,
+        title: entity.title,
+      );
 }

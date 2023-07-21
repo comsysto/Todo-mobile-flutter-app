@@ -1,30 +1,28 @@
 import 'package:todo_app/features/todo/data/converter/converter.dart';
 import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
-import 'package:todo_app/features/todo/data/model/project_model.dart';
+import 'package:todo_app/features/todo/data/database/model/project_object.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 
-class ProjectModelToEntityConverter implements Converter<ProjectModel, Project> {
-  final TodoItemModelToEntityConverter _converter;
+class ProjectObjectToEntityConverter implements Converter<ProjectObject, Project> {
+  final TodoItemObjectToEntityConverter _converter;
 
-  const ProjectModelToEntityConverter(
-    this._converter,
-  );
+  const ProjectObjectToEntityConverter(this._converter);
 
   @override
-  Project convert(final ProjectModel model) {
-    final todoList = model.todoList.map((item) => _converter.convert(item)).toList();
-    return Project(model.title, model.id, todoList);
+  Project convert(final ProjectObject object) {
+    final todos = object.todoList.map((todo) => _converter.convert(todo)).toList();
+    return Project(id: object.id, title: object.title, todoList: todos);
   }
 }
 
-class ProjectEntityToModelConverter implements Converter<Project, ProjectModel> {
-  final TodoItemEntityToModelConverter _converter;
+class ProjectEntityToObjectConverter implements Converter<Project, ProjectObject> {
+  final TodoItemEntityToObjectConverter _converter;
 
-  const ProjectEntityToModelConverter(this._converter);
+  const ProjectEntityToObjectConverter(this._converter);
 
   @override
-  ProjectModel convert(Project entity) {
-    final todoList = entity.todoList?.map((item) => _converter.convert(item)).toList() ?? [];
-    return ProjectModel(entity.title, todoList);
+  ProjectObject convert(final Project entity) {
+    final todos = entity.todoList.map((todo) => _converter.convert(todo)).toList();
+    return ProjectObject(id: entity.id!, title: entity.title, todoList: todos);
   }
 }

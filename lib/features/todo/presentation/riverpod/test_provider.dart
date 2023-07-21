@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
-import 'package:todo_app/features/todo/domain/repository/project_repository.dart';
-import 'package:todo_app/features/todo/domain/repository/todo_repository.dart';
+import 'package:todo_app/features/todo/domain/usecase/complete_todo_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/create_new_project_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/create_new_todo_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/get_all_projects_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/get_todos_for_project_use_case.dart';
 
 class TestProvider extends ChangeNotifier {
-  final ProjectRepository _projectRepository;
-  final TodoRepository _todoRepository;
+  final CreateNewProjectUseCase _createNewProjectUseCase;
+  final CreateNewTodoUseCase _createNewTodoUseCase;
+  final GetAllProjectsUseCase _getAllProjectsUseCase;
+  final GetTodosForProjectUseCase _getTodosForProjectUseCase;
+  final CompleteTodoUseCase _completeTodoUseCase;
   static int _projectCounter = 0;
   static int _todoCounter = 0;
 
@@ -15,56 +21,49 @@ class TestProvider extends ChangeNotifier {
   AsyncValue<List<TodoItem>>? todoListState;
 
   TestProvider(
-    this._projectRepository,
-    this._todoRepository,
+    this._createNewProjectUseCase,
+    this._createNewTodoUseCase,
+    this._getAllProjectsUseCase,
+    this._getTodosForProjectUseCase,
+    this._completeTodoUseCase,
   );
 
   Future<void> createNewProject() async {
     _projectCounter++;
-    final project = Project('Project #$_projectCounter');
-    await _projectRepository.createNewProject(project);
-    print('CREATED PROJECT!');
+    final projectName = 'Project #$_projectCounter';
+    await _createNewProjectUseCase(projectName);
   }
 
   Future<void> getAllProjects() async {
     projectListState = const AsyncValue.loading();
     notifyListeners();
 
-    projectListState = await AsyncValue.guard(() => _projectRepository.getAllProjects());
+    projectListState = await AsyncValue.guard(() => _getAllProjectsUseCase());
     notifyListeners();
-
-    if (projectListState!.hasValue) {
-      projectListState!.value!.forEach((project) => print(project));
-    }
   }
 
   Future<void> createNewTodo() async {
-    _todoCounter++;
-    final todo = TodoItem('Task #$_todoCounter', 'Random description', DateTime.now());
-    await _todoRepository.createNewTodo(1, todo);
-    print('CREATED TODO');
+    if (projectListState?.hasValue ?? false) {
+      _todoCounter++;
+      final todoName = 'Todo #$_todoCounter';
+      final project = projectListState!.value!.first;
+      await _createNewTodoUseCase(project, todoName);
+    }
   }
 
   Future<void> getAllTodosForProject(final int projectId) async {
     todoListState = const AsyncValue.loading();
     notifyListeners();
 
-    todoListState = await AsyncValue.guard(() => _todoRepository.getAllTodosForProject(projectId));
+    todoListState = await AsyncValue.guard(() => _getTodosForProjectUseCase(projectId));
     notifyListeners();
-
-    if (todoListState!.hasValue) {
-      todoListState!.value!.forEach((todo) => print(todo));
-    }
   }
 
-  Future<void> completeTodo(
-    final String title,
-    final String description,
-    final DateTime dueDate,
-    final int projectId,
-  ) async {
-    final todo = TodoItem(title, description, dueDate);
-    await _todoRepository.removeTodo(projectId, todo);
-    print('COMPLETED TODO');
+  Future<void> completeTodo() async {
+    if ((todoListState?.hasValue ?? false) && todoListState!.value!.isNotEmpty) {
+      final todo = todoListState!.value!.last;
+      print('TODO TO DELETE: $todo');
+      await _completeTodoUseCase(1, todo);
+    }
   }
 }

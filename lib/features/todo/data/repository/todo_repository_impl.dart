@@ -4,31 +4,34 @@ import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 import 'package:todo_app/features/todo/domain/repository/todo_repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
+  static int _nextId = 0;
   final DatabaseManager _databaseManager;
-  final TodoItemModelToEntityConverter _todoItemModelToEntityConverter;
-  final TodoItemEntityToModelConverter _todoItemEntityToModelConverter;
+  final TodoItemObjectToEntityConverter _objectToEntityConverter;
+  final TodoItemEntityToObjectConverter _entityToObjectConverter;
 
   const TodoRepositoryImpl(
     this._databaseManager,
-    this._todoItemModelToEntityConverter,
-    this._todoItemEntityToModelConverter,
+    this._objectToEntityConverter,
+    this._entityToObjectConverter,
   );
 
   @override
   Future<void> createNewTodo(final int projectId, final TodoItem todo) async {
-    final todoModel = _todoItemEntityToModelConverter.convert(todo);
-    _databaseManager.insertNewTodo(projectId, todoModel);
+    _nextId++;
+    todo.id = _nextId;
+    final todoObject = _entityToObjectConverter.convert(todo);
+    _databaseManager.insertNewTodo(projectId, todoObject);
   }
 
   @override
   Future<List<TodoItem>> getAllTodosForProject(final int projectId) async {
-    final todoModels = await _databaseManager.getAllTodosForProject(projectId);
-    return todoModels.map((todo) => _todoItemModelToEntityConverter.convert(todo)).toList();
+    final todoObjects = await _databaseManager.getAllTodosForProject(projectId);
+    return todoObjects.map((object) => _objectToEntityConverter.convert(object)).toList();
   }
 
   @override
   Future<void> removeTodo(final int projectId, final TodoItem todo) async {
-    final todoModel = _todoItemEntityToModelConverter.convert(todo);
-    _databaseManager.removeTodo(projectId, todoModel);
+    final todoObject = _entityToObjectConverter.convert(todo);
+    _databaseManager.removeTodo(projectId, todoObject);
   }
 }

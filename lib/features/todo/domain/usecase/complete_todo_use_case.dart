@@ -6,6 +6,6 @@ class CompleteTodoUseCase {
 
   const CompleteTodoUseCase(this._todoRepository);
 
-  void call(final int projectId, final TodoItem todo) =>
-      _todoRepository.removeTodo(projectId, todo);
+  Future<void> call(final int projectId, final TodoItem todo) async =>
+      await _todoRepository.removeTodo(projectId, todo);
 }

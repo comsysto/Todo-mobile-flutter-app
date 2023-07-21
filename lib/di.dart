@@ -3,64 +3,84 @@ import 'package:todo_app/features/todo/data/converter/project_converter.dart';
 import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
 import 'package:todo_app/features/todo/data/database/database_manager.dart';
 import 'package:todo_app/features/todo/data/database/database_manager_impl.dart';
-import 'package:todo_app/features/todo/data/database/isar_datasource.dart';
 import 'package:todo_app/features/todo/data/repository/project_repository_impl.dart';
 import 'package:todo_app/features/todo/data/repository/todo_repository_impl.dart';
 import 'package:todo_app/features/todo/domain/repository/project_repository.dart';
 import 'package:todo_app/features/todo/domain/repository/todo_repository.dart';
+import 'package:todo_app/features/todo/domain/usecase/complete_todo_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/create_new_project_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/create_new_todo_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/get_all_projects_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/get_todos_for_project_use_case.dart';
 import 'package:todo_app/features/todo/presentation/riverpod/test_provider.dart';
 
-final isarDatasourceProvider = Provider<IsarDatasource>(
-  (ref) => IsarDatasource(),
-);
-
 /// ************ MANAGERS *************
-final databaseManagerProvider = FutureProvider<DatabaseManager>(
-  (ref) async {
-    final instance = ref.watch(isarDatasourceProvider);
-    final db = await instance.init();
-    return DatabaseManagerImpl(db);
-  },
+final databaseManagerProvider = Provider<DatabaseManager>(
+  (ref) => DatabaseManagerImpl(),
 );
 
 /// ************ CONVERTERS *************
-final todoItemModelToEntityConverterProvider = Provider<TodoItemModelToEntityConverter>(
-  (ref) => TodoItemModelToEntityConverter(),
+final todoItemObjectToEntityConverter = Provider<TodoItemObjectToEntityConverter>(
+  (ref) => TodoItemObjectToEntityConverter(),
 );
 
-final todoItemEntityToModelConverterProvider = Provider<TodoItemEntityToModelConverter>(
-  (ref) => TodoItemEntityToModelConverter(),
+final todoItemEntityToObjectConverter = Provider<TodoItemEntityToObjectConverter>(
+  (ref) => TodoItemEntityToObjectConverter(),
 );
 
-final projectModelToEntityConverterProvider = Provider<ProjectModelToEntityConverter>(
-  (ref) => ProjectModelToEntityConverter(ref.watch(todoItemModelToEntityConverterProvider)),
+final projectObjectToEntityConverter = Provider<ProjectObjectToEntityConverter>(
+  (ref) => ProjectObjectToEntityConverter(ref.watch(todoItemObjectToEntityConverter)),
 );
 
-final projectEntityToModelConverterProvider = Provider<ProjectEntityToModelConverter>(
-  (ref) => ProjectEntityToModelConverter(ref.watch(todoItemEntityToModelConverterProvider)),
+final projectEntityToObjectConverter = Provider<ProjectEntityToObjectConverter>(
+  (ref) => ProjectEntityToObjectConverter(ref.watch(todoItemEntityToObjectConverter)),
 );
 
 /// ************ REPOSITORIES *************
 final projectRepositoryProvider = Provider<ProjectRepository>(
   (ref) => ProjectRepositoryImpl(
-    ref.watch(databaseManagerProvider).value!,
-    ref.watch(projectModelToEntityConverterProvider),
-    ref.watch(projectEntityToModelConverterProvider),
+    ref.watch(databaseManagerProvider),
+    ref.watch(projectObjectToEntityConverter),
+    ref.watch(projectEntityToObjectConverter),
   ),
 );
 
 final todoRepositoryProvider = Provider<TodoRepository>(
   (ref) => TodoRepositoryImpl(
-    ref.watch(databaseManagerProvider).value!,
-    ref.watch(todoItemModelToEntityConverterProvider),
-    ref.watch(todoItemEntityToModelConverterProvider),
+    ref.watch(databaseManagerProvider),
+    ref.watch(todoItemObjectToEntityConverter),
+    ref.watch(todoItemEntityToObjectConverter),
   ),
+);
+
+/// ************ PROVIDERS *************
+final createNewProjectUseCaseProvider = Provider<CreateNewProjectUseCase>(
+  (ref) => CreateNewProjectUseCase(ref.watch(projectRepositoryProvider)),
+);
+
+final createNewTodoUseCaseProvider = Provider<CreateNewTodoUseCase>(
+  (ref) => CreateNewTodoUseCase(ref.watch(todoRepositoryProvider)),
+);
+
+final getAllProjectsUseCaseProvider = Provider<GetAllProjectsUseCase>(
+  (ref) => GetAllProjectsUseCase(ref.watch(projectRepositoryProvider)),
+);
+
+final getTodosForProjectUseCaseProvider = Provider<GetTodosForProjectUseCase>(
+  (ref) => GetTodosForProjectUseCase(ref.watch(todoRepositoryProvider)),
+);
+
+final completeTodoUseCaseProvider = Provider<CompleteTodoUseCase>(
+  (ref) => CompleteTodoUseCase(ref.watch(todoRepositoryProvider)),
 );
 
 /// ************ PROVIDERS *************
 final testProvider = ChangeNotifierProvider<TestProvider>(
   (ref) => TestProvider(
-    ref.watch(projectRepositoryProvider),
-    ref.watch(todoRepositoryProvider),
+    ref.watch(createNewProjectUseCaseProvider),
+    ref.watch(createNewTodoUseCaseProvider),
+    ref.watch(getAllProjectsUseCaseProvider),
+    ref.watch(getTodosForProjectUseCaseProvider),
+    ref.watch(completeTodoUseCaseProvider),
   ),
 );
