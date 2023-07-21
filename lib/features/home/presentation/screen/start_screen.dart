@@ -70,5 +70,5 @@ class StartScreen extends StatelessWidget {
   }
 
   void _redirectToHomeScreen(final BuildContext context) =>
-      Navigator.of(context).pushReplacementNamed(RouteGenerator.testScreen);
+      Navigator.of(context).pushReplacementNamed(RouteGenerator.homeScreen);
 }

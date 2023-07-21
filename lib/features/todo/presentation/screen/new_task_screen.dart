@@ -3,8 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/core/style/text_styles.dart';
+import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_button.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
+import 'package:todo_app/features/todo/domain/entity/project.dart';
+import 'package:todo_app/features/todo/presentation/widget/drop_down_text_field.dart';
 import 'package:todo_app/features/todo/presentation/widget/new_project_modal_sheet.dart';
 
 class NewTaskScreen extends HookConsumerWidget {
@@ -14,6 +17,12 @@ class NewTaskScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final titleController = useTextEditingController();
     final dateController = useTextEditingController();
+
+    final projectListState = ref.watch(
+      projectProvider.select(
+        (provider) => provider.projectListState,
+      ),
+    );
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -38,9 +47,8 @@ class NewTaskScreen extends HookConsumerWidget {
               Row(
                 children: [
                   Expanded(
-                    child: CustomTextField(
-                      controller: dateController,
-                      labelText: 'Project',
+                    child: ProjectPicker(
+                      projectList: projectListState?.value! ?? <Project>[],
                     ),
                   ),
                   TextButton(

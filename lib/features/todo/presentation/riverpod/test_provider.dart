@@ -47,7 +47,7 @@ class TestProvider extends ChangeNotifier {
       final todoName = 'Todo #$_todoCounter';
       _todoCounter++;
       final project = projectListState!.value!.first;
-      await _createNewTodoUseCase(project, todoName);
+      await _createNewTodoUseCase(project.id!, todoName);
     }
   }
 

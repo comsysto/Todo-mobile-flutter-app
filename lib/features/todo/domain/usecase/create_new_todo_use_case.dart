@@ -1,4 +1,3 @@
-import 'package:todo_app/features/todo/domain/entity/project.dart';
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 import 'package:todo_app/features/todo/domain/repository/todo_repository.dart';
 
@@ -7,8 +6,8 @@ class CreateNewTodoUseCase {
 
   const CreateNewTodoUseCase(this._todoRepository);
 
-  Future<void> call(final Project project, final String todoTitle) async {
+  Future<void> call(final int projectId, final String todoTitle) async {
     final todo = TodoItem(title: todoTitle, dueDate: DateTime.now());
-    await _todoRepository.createNewTodo(project.id!, todo);
+    await _todoRepository.createNewTodo(projectId, todo);
   }
 }

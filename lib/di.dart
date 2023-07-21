@@ -12,7 +12,9 @@ import 'package:todo_app/features/todo/domain/usecase/create_new_project_use_cas
 import 'package:todo_app/features/todo/domain/usecase/create_new_todo_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/get_all_projects_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/get_todos_for_project_use_case.dart';
+import 'package:todo_app/features/todo/presentation/riverpod/project_provider.dart';
 import 'package:todo_app/features/todo/presentation/riverpod/test_provider.dart';
+import 'package:todo_app/features/todo/presentation/riverpod/todo_provider.dart';
 
 /// ************ MANAGERS *************
 final databaseManagerProvider = Provider<DatabaseManager>(
@@ -81,6 +83,21 @@ final testProvider = ChangeNotifierProvider<TestProvider>(
     ref.watch(createNewTodoUseCaseProvider),
     ref.watch(getAllProjectsUseCaseProvider),
     ref.watch(getTodosForProjectUseCaseProvider),
+    ref.watch(completeTodoUseCaseProvider),
+  ),
+);
+
+final projectProvider = ChangeNotifierProvider(
+  (ref) => ProjectProvider(
+    ref.watch(getAllProjectsUseCaseProvider),
+    ref.watch(createNewProjectUseCaseProvider),
+  ),
+);
+
+final todoProvider = ChangeNotifierProvider(
+  (ref) => TodoProvider(
+    ref.watch(getTodosForProjectUseCaseProvider),
+    ref.watch(createNewTodoUseCaseProvider),
     ref.watch(completeTodoUseCaseProvider),
   ),
 );

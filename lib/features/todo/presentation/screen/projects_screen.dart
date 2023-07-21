@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/core/style/text_styles.dart';
+import 'package:todo_app/di.dart';
+import 'package:todo_app/features/todo/domain/entity/project.dart';
 import 'package:todo_app/features/todo/presentation/widget/statistics_widget.dart';
 import 'package:todo_app/features/todo/presentation/widget/task_widget.dart';
 
-class TaskScreen extends StatelessWidget {
-  const TaskScreen({super.key});
+class ProjectsScreen extends ConsumerWidget {
+  const ProjectsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final projectListState = ref.watch(
+      projectProvider.select(
+        (provider) => provider.projectListState,
+      ),
+    );
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -58,20 +67,55 @@ class TaskScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: 2,
-                  itemBuilder: (context, index) => const Column(
-                    children: [
-                      TaskWidget(),
-                      SizedBox(height: 15),
-                    ],
-                  ),
-                ),
+              projectListState!.when(
+                data: (projectList) =>
+                    projectList.isEmpty ? const NoProjects() : ProjectList(projects: projectList),
+                error: (error, stackTrace) => Container(),
+                loading: () => Container(),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProjectList extends StatelessWidget {
+  final List<Project> projects;
+
+  const ProjectList({super.key, required this.projects});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        itemCount: projects.length,
+        itemBuilder: (context, index) => const Column(
+          children: [
+            TaskWidget(),
+            SizedBox(height: 15),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NoProjects extends StatelessWidget {
+  const NoProjects({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Expanded(
+      child: Center(
+        child: Column(
+          children: [
+            Image(image: AssetImage('assets/images/everything_done.png')),
+            SizedBox(height: 10),
+            Text('Everything done!', style: mediumTextStyle),
+          ],
         ),
       ),
     );

@@ -3,13 +3,13 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/route_generator.dart';
 import 'package:todo_app/features/settings/presentation/screen/settings_screen.dart';
-import 'package:todo_app/features/todo/presentation/screen/task_screen.dart';
+import 'package:todo_app/features/todo/presentation/screen/projects_screen.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   final _screens = const [
-    TaskScreen(),
+    ProjectsScreen(),
     SettingsScreen(),
   ];
 
