@@ -56,7 +56,7 @@ class NewProjectModalSheet extends HookConsumerWidget {
                       text: 'Create',
                       onPressed: () {
                         ref.read(projectProvider).createNewProject(titleController.text);
-                        print('Project created!');
+                        ref.read(projectProvider).getAllProjects();
                         Navigator.of(context).pop();
                       },
                     ),
