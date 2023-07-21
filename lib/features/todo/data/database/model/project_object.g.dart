@@ -17,21 +17,18 @@ class ProjectObjectAdapter extends TypeAdapter<ProjectObject> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ProjectObject(
-      id: fields[0] as int,
-      title: fields[1] as String,
-      todoList: (fields[2] as List?)?.cast<TodoItemObject>(),
+      title: fields[0] as String,
+      todoList: (fields[1] as List?)?.cast<TodoItemObject>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ProjectObject obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.title)
       ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.title)
+      ..writeByte(1)
       ..write(obj.todoList);
   }
 

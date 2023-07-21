@@ -4,7 +4,6 @@ import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 import 'package:todo_app/features/todo/domain/repository/todo_repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
-  static int _nextId = 0;
   final DatabaseManager _databaseManager;
   final TodoItemObjectToEntityConverter _objectToEntityConverter;
   final TodoItemEntityToObjectConverter _entityToObjectConverter;
@@ -17,8 +16,6 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<void> createNewTodo(final int projectId, final TodoItem todo) async {
-    _nextId++;
-    todo.id = _nextId;
     final todoObject = _entityToObjectConverter.convert(todo);
     _databaseManager.insertNewTodo(projectId, todoObject);
   }

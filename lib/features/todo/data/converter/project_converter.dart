@@ -11,7 +11,7 @@ class ProjectObjectToEntityConverter implements Converter<ProjectObject, Project
   @override
   Project convert(final ProjectObject object) {
     final todos = object.todoList.map((todo) => _converter.convert(todo)).toList();
-    return Project(id: object.id, title: object.title, todoList: todos);
+    return Project(id: object.key, title: object.title, todoList: todos);
   }
 }
 
@@ -23,6 +23,6 @@ class ProjectEntityToObjectConverter implements Converter<Project, ProjectObject
   @override
   ProjectObject convert(final Project entity) {
     final todos = entity.todoList.map((todo) => _converter.convert(todo)).toList();
-    return ProjectObject(id: entity.id!, title: entity.title, todoList: todos);
+    return ProjectObject(title: entity.title, todoList: todos);
   }
 }

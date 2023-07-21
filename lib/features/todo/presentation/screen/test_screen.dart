@@ -41,13 +41,13 @@ class TestScreen extends ConsumerWidget {
 
   void _createTodo(final WidgetRef ref) async {
     await ref.read(testProvider).createNewTodo();
-    await ref.read(testProvider).getAllTodosForProject(1);
+    await ref.read(testProvider).getAllTodosForProject(0);
     await ref.read(testProvider).getAllProjects();
   }
 
   void _completeTodo(final WidgetRef ref) async {
     await ref.read(testProvider).completeTodo();
-    await ref.read(testProvider).getAllTodosForProject(1);
+    await ref.read(testProvider).getAllTodosForProject(0);
     await ref.read(testProvider).getAllProjects();
   }
 }

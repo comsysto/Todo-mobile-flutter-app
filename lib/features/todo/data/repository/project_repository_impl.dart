@@ -7,7 +7,6 @@ class ProjectRepositoryImpl implements ProjectRepository {
   final DatabaseManager _databaseManager;
   final ProjectObjectToEntityConverter _objectToEntityConverter;
   final ProjectEntityToObjectConverter _entityToObjectConverter;
-  static int _nextId = 0;
 
   const ProjectRepositoryImpl(
     this._databaseManager,
@@ -23,21 +22,12 @@ class ProjectRepositoryImpl implements ProjectRepository {
 
   @override
   Future<void> createNewProject(final Project project) async {
-    _nextId++;
-    project.id = _nextId;
-    final projectModel = _entityToObjectConverter.convert(project);
-    await _databaseManager.insertNewProject(projectModel);
+    final projectObject = _entityToObjectConverter.convert(project);
+    await _databaseManager.insertNewProject(projectObject);
   }
 
   @override
-  Future<void> removeProject(Project project) {
-    // TODO: implement removeProject
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updateProject(Project project) {
-    //_databaseManager.
-    throw UnimplementedError();
+  Future<void> removeProject(final Project project) async{
+    await _databaseManager.removeProjectById(project.id!);
   }
 }

@@ -14,7 +14,8 @@ class TodoItemObjectToEntityConverter implements Converter<TodoItemObject, TodoI
 class TodoItemEntityToObjectConverter implements Converter<TodoItem, TodoItemObject> {
   @override
   TodoItemObject convert(final TodoItem entity) => TodoItemObject(
-        id: entity.id!,
+        id: entity.id,
         title: entity.title,
+        dueDate: entity.dueDate,
       );
 }

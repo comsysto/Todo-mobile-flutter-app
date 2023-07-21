@@ -29,8 +29,8 @@ class TestProvider extends ChangeNotifier {
   );
 
   Future<void> createNewProject() async {
-    _projectCounter++;
     final projectName = 'Project #$_projectCounter';
+    _projectCounter++;
     await _createNewProjectUseCase(projectName);
   }
 
@@ -44,8 +44,8 @@ class TestProvider extends ChangeNotifier {
 
   Future<void> createNewTodo() async {
     if (projectListState?.hasValue ?? false) {
-      _todoCounter++;
       final todoName = 'Todo #$_todoCounter';
+      _todoCounter++;
       final project = projectListState!.value!.first;
       await _createNewTodoUseCase(project, todoName);
     }
@@ -62,8 +62,7 @@ class TestProvider extends ChangeNotifier {
   Future<void> completeTodo() async {
     if ((todoListState?.hasValue ?? false) && todoListState!.value!.isNotEmpty) {
       final todo = todoListState!.value!.last;
-      print('TODO TO DELETE: $todo');
-      await _completeTodoUseCase(1, todo);
+      await _completeTodoUseCase(0, todo);
     }
   }
 }
