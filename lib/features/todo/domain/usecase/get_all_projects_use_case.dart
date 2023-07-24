@@ -6,9 +6,5 @@ class GetAllProjectsUseCase {
 
   const GetAllProjectsUseCase(this._projectRepository);
 
-  Future<List<Project>> call() async {
-    final listOfProjects = await _projectRepository.getAllProjects();
-    listOfProjects.forEach((element) => print(element));
-    return listOfProjects;
-  }
+  Future<List<Project>> call() async => await _projectRepository.getAllProjects();
 }

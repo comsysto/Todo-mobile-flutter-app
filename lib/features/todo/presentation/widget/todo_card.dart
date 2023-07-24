@@ -18,7 +18,6 @@ class TodoCard extends HookConsumerWidget {
 
     useEffect(() {
       checkState.value = todoItem.isDone;
-      print('Check state: ${checkState.value}');
       return null;
     }, [todoItem]);
 

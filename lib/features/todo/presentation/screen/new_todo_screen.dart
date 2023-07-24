@@ -138,7 +138,7 @@ class NewTodoScreen extends HookConsumerWidget {
     await ref.read(todoProvider(project.id!)).createNewTodo(project.id!, title, dueDate ?? DateTime.now());
     if (context.mounted) {
       _popToTaskScreen(context);
-      ref.read(projectProvider).getAllProjects(); //TODO: Delete later
+      ref.read(projectProvider).getAllProjects();
     }
   }
 }
