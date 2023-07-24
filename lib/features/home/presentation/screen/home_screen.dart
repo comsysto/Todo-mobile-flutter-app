@@ -48,5 +48,5 @@ class HomeScreen extends HookConsumerWidget {
   }
 
   void _redirectToNewTaskScreen(final BuildContext context) =>
-      Navigator.of(context).pushNamed(RouteGenerator.newTaskScreen);
+      Navigator.of(context).pushNamed(RouteGenerator.newTodoScreen);
 }

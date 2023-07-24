@@ -30,7 +30,7 @@ class NewProjectModalSheet extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Text('New task', style: boldTextStyle),
+                const Text('New project', style: boldTextStyle),
                 const SizedBox(height: 20),
                 CustomTextField(
                   controller: titleController,

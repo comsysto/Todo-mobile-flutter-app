@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/core/route_generator.dart';
 import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/core/style/text_styles.dart';
+import 'package:todo_app/di.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 
-class ProjectCard extends StatelessWidget {
+class ProjectCard extends ConsumerWidget {
   final Project project;
 
   const ProjectCard({super.key, required this.project});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -37,7 +40,7 @@ class ProjectCard extends StatelessWidget {
           ),
           const Spacer(),
           IconButton(
-            onPressed: () => _redirectToTaskList(context),
+            onPressed: () => _redirectToTaskList(context, ref),
             icon: const Icon(Icons.chevron_right_rounded),
           ),
         ],
@@ -67,8 +70,9 @@ class ProjectCard extends StatelessWidget {
     }
   }
 
-  void _redirectToTaskList(final BuildContext context) {
-    print('Show dialog with details');
+  void _redirectToTaskList(final BuildContext context, final WidgetRef ref) {
+    ref.read(projectProvider).selectProject(project);
+    Navigator.of(context).pushNamed(RouteGenerator.todoListScreen);
   }
 }
 

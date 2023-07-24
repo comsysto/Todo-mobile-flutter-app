@@ -9,13 +9,17 @@ class TodoProvider extends ChangeNotifier {
   final GetTodosForProjectUseCase _getTodosForProjectUseCase;
   final CreateNewTodoUseCase _createNewTodoUseCase;
   final CompleteTodoUseCase _completeTodoUseCase;
+  final int projectId;
   AsyncValue<List<TodoItem>>? todoListState;
 
   TodoProvider(
     this._getTodosForProjectUseCase,
     this._createNewTodoUseCase,
     this._completeTodoUseCase,
-  );
+    this.projectId,
+  ) {
+    getAllTodosForProject(projectId);
+  }
 
   void getAllTodosForProject(final int projectId) async {
     todoListState = const AsyncValue.loading();
@@ -25,8 +29,12 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createNewTodo(final int projectId, final String todoTitle, final DateTime dueDate) =>
-      _createNewTodoUseCase(projectId, todoTitle, dueDate);
+  Future<void> createNewTodo(
+    final int projectId,
+    final String todoTitle,
+    final DateTime dueDate,
+  ) async =>
+      await _createNewTodoUseCase(projectId, todoTitle, dueDate);
 
   void completeTodo(final int projectId, final TodoItem todoItem) =>
       _completeTodoUseCase(projectId, todoItem);

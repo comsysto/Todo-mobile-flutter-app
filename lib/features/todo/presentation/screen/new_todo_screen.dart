@@ -13,8 +13,8 @@ import 'package:todo_app/features/todo/presentation/widget/date_time_text_field.
 import 'package:todo_app/features/todo/presentation/widget/new_project_modal_sheet.dart';
 import 'package:todo_app/features/todo/presentation/widget/project_picker.dart';
 
-class NewTaskScreen extends HookConsumerWidget {
-  const NewTaskScreen({super.key});
+class NewTodoScreen extends HookConsumerWidget {
+  const NewTodoScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -134,10 +134,11 @@ class NewTaskScreen extends HookConsumerWidget {
     final String title,
     final DateTime? dueDate,
     final Project project,
-  ) {
-    //ref.read(todoProvider).createNewTodo(project.id!, title, dueDate ?? DateTime.now());
-    print(title);
-    print(dueDate);
-    print(project.title);
+  ) async {
+    await ref.read(todoProvider(project.id!)).createNewTodo(project.id!, title, dueDate ?? DateTime.now());
+    if (context.mounted) {
+      _popToTaskScreen(context);
+      ref.read(projectProvider).getAllProjects(); //TODO: Delete later
+    }
   }
 }

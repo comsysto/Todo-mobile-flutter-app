@@ -7,7 +7,7 @@ class TodoItemObjectToEntityConverter implements Converter<TodoItemObject, TodoI
   TodoItem convert(final TodoItemObject object) => TodoItem(
         id: object.id,
         title: object.title,
-        dueDate: DateTime.now(),
+        dueDate: object.dueDate,
       );
 }
 
