@@ -14,7 +14,7 @@ class ProjectProvider extends ChangeNotifier {
     getAllProjects();
   }
 
-  void getAllProjects() async {
+  Future<void> getAllProjects() async {
     projectListState = const AsyncValue.loading();
     notifyListeners();
 

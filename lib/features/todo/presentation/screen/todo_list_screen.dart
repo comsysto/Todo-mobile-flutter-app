@@ -16,7 +16,7 @@ class TodoListScreen extends ConsumerWidget {
     final todoListState = ref.watch(
       todoProvider(selectedProject!.id!).select((provider) => provider.todoListState),
     );
-    
+
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(

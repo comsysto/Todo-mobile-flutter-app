@@ -8,6 +8,7 @@ class TodoItemObjectToEntityConverter implements Converter<TodoItemObject, TodoI
         id: object.id,
         title: object.title,
         dueDate: object.dueDate,
+        isDone: object.isDone,
       );
 }
 
@@ -17,5 +18,6 @@ class TodoItemEntityToObjectConverter implements Converter<TodoItem, TodoItemObj
         id: entity.id,
         title: entity.title,
         dueDate: entity.dueDate,
+        isDone: entity.isDone,
       );
 }

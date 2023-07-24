@@ -6,6 +6,8 @@ class GetTodosForProjectUseCase {
 
   const GetTodosForProjectUseCase(this._todoRepository);
 
-  Future<List<TodoItem>> call(final int projectId) =>
-      _todoRepository.getAllTodosForProject(projectId);
+  Future<List<TodoItem>> call(final int projectId) async {
+    final todoList = await _todoRepository.getAllTodosForProject(projectId);
+    return todoList.where((todo) => !todo.isDone).toList(); //TODO: REMOVE LATER
+  }
 }

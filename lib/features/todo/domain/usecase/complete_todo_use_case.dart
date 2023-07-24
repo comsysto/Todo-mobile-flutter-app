@@ -7,5 +7,5 @@ class CompleteTodoUseCase {
   const CompleteTodoUseCase(this._todoRepository);
 
   Future<void> call(final int projectId, final TodoItem todo) =>
-      _todoRepository.removeTodo(projectId, todo);
+      _todoRepository.completeTodo(projectId, todo);
 }

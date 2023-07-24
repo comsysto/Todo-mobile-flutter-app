@@ -61,12 +61,12 @@ class ProjectCard extends ConsumerWidget {
   }
 
   String _getProjectTaskLength() {
-    if (project.todoList.isEmpty) {
+    if (project.todoList.isEmpty || project.todoList.where((todo) => !todo.isDone).isEmpty) {
       return 'No tasks';
-    } else if (project.todoList.length == 1) {
+    } else if (project.todoList.where((todo) => !todo.isDone).toList().length == 1) {
       return '1 task remaining';
     } else {
-      return '${project.todoList.length} tasks remaining';
+      return '${project.todoList.where((todo) => !todo.isDone).toList().length} tasks remaining';
     }
   }
 

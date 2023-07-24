@@ -42,11 +42,13 @@ class DatabaseManagerImpl implements DatabaseManager {
   }
 
   @override
-  Future<void> removeTodo(final int projectId, final TodoItemObject todoToDelete) async {
+  Future<void> completeTodo(final int projectId, final TodoItemObject todoToComplete) async {
     final projects = await Hive.openBox<ProjectObject>(projectsBox);
     final project = projects.get(projectId);
     if (project != null) {
-      project.todoList.removeWhere((todo) => todo.id == todoToDelete.id);
+      final index = project.todoList.indexWhere((todo) => todo.id == todoToComplete.id);
+      project.todoList[index].isDone = true;
+      //project.todoList.removeWhere((todo) => todo.id == todoToComplete.id);
       await project.save();
     }
   }

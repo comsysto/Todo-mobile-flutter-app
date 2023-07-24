@@ -13,7 +13,10 @@ class TodoItemObject extends HiveObject {
   @HiveField(2)
   DateTime? dueDate;
 
-  TodoItemObject({required this.title, this.dueDate, this.id});
+  @HiveField(3)
+  bool isDone;
+
+  TodoItemObject({required this.title, this.dueDate, this.id, this.isDone = false});
 
   @override
   String toString() => '$id, $title';

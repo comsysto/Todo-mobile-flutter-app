@@ -20,19 +20,22 @@ class TodoItemObjectAdapter extends TypeAdapter<TodoItemObject> {
       title: fields[1] as String,
       dueDate: fields[2] as DateTime?,
       id: fields[0] as int?,
+      isDone: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, TodoItemObject obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.dueDate);
+      ..write(obj.dueDate)
+      ..writeByte(3)
+      ..write(obj.isDone);
   }
 
   @override

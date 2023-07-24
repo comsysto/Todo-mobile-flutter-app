@@ -14,8 +14,14 @@ class TodoCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final checkState = useState(false);
-    
+    final checkState = useState(todoItem.isDone);
+
+    useEffect(() {
+      checkState.value = todoItem.isDone;
+      print('Check state: ${checkState.value}');
+      return null;
+    }, [todoItem]);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
@@ -52,6 +58,8 @@ class TodoCard extends HookConsumerWidget {
 
   void _completeTodo(final WidgetRef ref) async {
     await Future.delayed(const Duration(seconds: 1));
+    todoItem.isDone = true;
     await ref.read(todoProvider(projectId)).completeTodo(projectId, todoItem);
+    await ref.read(projectProvider).getAllProjects();
   }
 }
