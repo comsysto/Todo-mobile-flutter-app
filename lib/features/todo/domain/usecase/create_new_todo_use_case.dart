@@ -6,8 +6,8 @@ class CreateNewTodoUseCase {
 
   const CreateNewTodoUseCase(this._todoRepository);
 
-  Future<void> call(final int projectId, final String todoTitle) async {
-    final todo = TodoItem(title: todoTitle, dueDate: DateTime.now());
+  Future<void> call(final int projectId, final String todoTitle, final DateTime dueDate) async {
+    final todo = TodoItem(title: todoTitle, dueDate: dueDate);
     await _todoRepository.createNewTodo(projectId, todo);
   }
 }

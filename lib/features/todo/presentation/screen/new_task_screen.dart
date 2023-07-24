@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_button.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
-import 'package:todo_app/features/todo/presentation/widget/drop_down_text_field.dart';
+import 'package:todo_app/features/todo/presentation/widget/date_time_text_field.dart';
+import 'package:todo_app/features/todo/presentation/widget/project_picker.dart';
 import 'package:todo_app/features/todo/presentation/widget/new_project_modal_sheet.dart';
 
 class NewTaskScreen extends HookConsumerWidget {
   const NewTaskScreen({super.key});
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final titleController = useTextEditingController();
     final dateController = useTextEditingController();
+    final selectedDate = useState<DateTime?>(null);
+    final selectedProject = useState<Project?>(null);
 
     final projectListState = ref.watch(
       projectProvider.select(
@@ -36,12 +41,26 @@ class NewTaskScreen extends HookConsumerWidget {
               const SizedBox(height: 50),
               const Text('New challange to\ncomplete', style: titleTextStyle),
               const SizedBox(height: 30),
-              CustomTextField(controller: titleController, labelText: 'Title'),
-              const SizedBox(height: 15),
               CustomTextField(
+                controller: titleController,
+                labelText: 'Title',
+              ),
+              const SizedBox(height: 15),
+              DateTimeTextField(
                 controller: dateController,
-                labelText: 'Due date',
-                suffixIcon: const Icon(Icons.event_rounded, size: 26),
+                onTap: () async {
+                  selectedDate.value = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2030),
+                  );
+
+                  if (selectedDate.value != null) {
+                    dateController.text = DateFormat('dd.MM.yyyy').format(selectedDate.value!);
+                    ;
+                  }
+                },
               ),
               const SizedBox(height: 15),
               Row(
@@ -49,6 +68,8 @@ class NewTaskScreen extends HookConsumerWidget {
                   Expanded(
                     child: ProjectPicker(
                       projectList: projectListState?.value! ?? <Project>[],
+                      selectedProject: selectedProject.value,
+                      onChanged: (project) => selectedProject.value = project,
                     ),
                   ),
                   TextButton(
@@ -72,13 +93,19 @@ class NewTaskScreen extends HookConsumerWidget {
                       onPressed: () => _popToTaskScreen(context),
                       child: Text(
                         'Cancel',
-                        style: mediumTextStyle.copyWith(color: const Color(0xFFDE0000)),
+                        style: mediumTextStyle.copyWith(color: redColor),
                       ),
                     ),
                   ),
                   CustomButton(
                     text: 'Create',
-                    onPressed: () {},
+                    onPressed: () => _createTask(
+                      context,
+                      ref,
+                      titleController.text,
+                      selectedDate.value,
+                      selectedProject.value!,
+                    ),
                   ),
                 ],
               ),
@@ -88,6 +115,8 @@ class NewTaskScreen extends HookConsumerWidget {
       ),
     );
   }
+
+  void _showPlatformDatePicker() {}
 
   void _openNewProjectModalSheet(final BuildContext context) {
     showModalBottomSheet(
@@ -99,4 +128,17 @@ class NewTaskScreen extends HookConsumerWidget {
   }
 
   void _popToTaskScreen(final BuildContext context) => Navigator.pop(context);
+
+  void _createTask(
+    final BuildContext context,
+    final WidgetRef ref,
+    final String title,
+    final DateTime? dueDate,
+    final Project project,
+  ) {
+    //ref.read(todoProvider).createNewTodo(project.id!, title, dueDate ?? DateTime.now());
+    print(title);
+    print(dueDate);
+    print(project.title);
+  }
 }

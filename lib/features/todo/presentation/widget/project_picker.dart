@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 
-class ProjectPicker extends StatefulWidget {
+class ProjectPicker extends HookConsumerWidget {
   final List<Project> projectList;
-  const ProjectPicker({super.key, required this.projectList});
+  final Project? selectedProject;
+  final Function(Project?) onChanged;
+
+  const ProjectPicker({
+    super.key,
+    required this.projectList,
+    required this.onChanged,
+    required this.selectedProject,
+  });
 
   @override
-  State<ProjectPicker> createState() => _ProjectPickerState();
-}
-
-class _ProjectPickerState extends State<ProjectPicker> {
-  Project? _selectedProject;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: foregroundColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: const [
           BoxShadow(
@@ -30,9 +32,11 @@ class _ProjectPickerState extends State<ProjectPicker> {
         ],
       ),
       child: DropdownButton<Project>(
+        dropdownColor: foregroundColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         isExpanded: true,
         underline: const SizedBox(),
-        value: _selectedProject,
+        value: selectedProject,
         hint: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
           child: Text(
@@ -45,8 +49,8 @@ class _ProjectPickerState extends State<ProjectPicker> {
         iconEnabledColor: labelColor,
         elevation: 10,
         style: formTextSyle.copyWith(color: Colors.black),
-        onChanged: (value) => setState(() => _selectedProject = value!),
-        items: widget.projectList.map<DropdownMenuItem<Project>>((project) {
+        onChanged: onChanged,
+        items: projectList.map<DropdownMenuItem<Project>>((project) {
           return DropdownMenuItem<Project>(
             value: project,
             child: Padding(

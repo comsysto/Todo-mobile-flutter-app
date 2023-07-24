@@ -32,7 +32,10 @@ class NewProjectModalSheet extends HookConsumerWidget {
               children: [
                 const Text('New task', style: boldTextStyle),
                 const SizedBox(height: 20),
-                CustomTextField(controller: titleController, labelText: 'Title'),
+                CustomTextField(
+                  controller: titleController,
+                  labelText: 'Title',
+                ),
                 const SizedBox(height: 15),
                 CustomTextField(
                   controller: descriptionController,
@@ -48,7 +51,7 @@ class NewProjectModalSheet extends HookConsumerWidget {
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text(
                           'Cancel',
-                          style: mediumTextStyle.copyWith(color: const Color(0xFFDE0000)),
+                          style: mediumTextStyle.copyWith(color: redColor),
                         ),
                       ),
                     ),

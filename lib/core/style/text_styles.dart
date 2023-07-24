@@ -12,28 +12,32 @@ const boldTextStyle = TextStyle(
 const formTextSyle = TextStyle(fontSize: 18);
 const mediumTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: 18,
+  fontSize: 16,
 );
 const statisticsCardTitleTextStyle = TextStyle(
-  color: Colors.white,
+  color: foregroundColor,
   fontWeight: FontWeight.bold,
   fontSize: 26,
 );
 const statisticsCardSmallTextStyle = TextStyle(
-  color: Colors.white,
+  color: foregroundColor,
   fontSize: 12,
 );
 const statisticsCardTextStyle = TextStyle(
-  color: Colors.white,
+  color: foregroundColor,
   fontSize: 22,
 );
 const statisticsCardNumberTextStyle = TextStyle(
-  color: Colors.white,
+  color: foregroundColor,
   fontWeight: FontWeight.bold,
   fontSize: 46,
 );
 const detailsTextStyle = TextStyle(
   color: primaryColor,
   fontWeight: FontWeight.w600,
+  fontSize: 12,
+);
+const errorTextStyle = TextStyle(
+  color: redColor,
   fontSize: 12,
 );

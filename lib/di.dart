@@ -13,7 +13,6 @@ import 'package:todo_app/features/todo/domain/usecase/create_new_todo_use_case.d
 import 'package:todo_app/features/todo/domain/usecase/get_all_projects_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/get_todos_for_project_use_case.dart';
 import 'package:todo_app/features/todo/presentation/riverpod/project_provider.dart';
-import 'package:todo_app/features/todo/presentation/riverpod/test_provider.dart';
 import 'package:todo_app/features/todo/presentation/riverpod/todo_provider.dart';
 
 /// ************ MANAGERS *************
@@ -77,16 +76,6 @@ final completeTodoUseCaseProvider = Provider<CompleteTodoUseCase>(
 );
 
 /// ************ PROVIDERS *************
-final testProvider = ChangeNotifierProvider<TestProvider>(
-  (ref) => TestProvider(
-    ref.watch(createNewProjectUseCaseProvider),
-    ref.watch(createNewTodoUseCaseProvider),
-    ref.watch(getAllProjectsUseCaseProvider),
-    ref.watch(getTodosForProjectUseCaseProvider),
-    ref.watch(completeTodoUseCaseProvider),
-  ),
-);
-
 final projectProvider = ChangeNotifierProvider(
   (ref) => ProjectProvider(
     ref.watch(getAllProjectsUseCaseProvider),

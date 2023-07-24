@@ -5,7 +5,7 @@ import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 import 'package:todo_app/features/todo/presentation/widget/statistics_widget.dart';
-import 'package:todo_app/features/todo/presentation/widget/task_widget.dart';
+import 'package:todo_app/features/todo/presentation/widget/project_card.dart';
 
 class ProjectsScreen extends ConsumerWidget {
   const ProjectsScreen({super.key});
@@ -92,10 +92,10 @@ class ProjectList extends StatelessWidget {
       child: ListView.builder(
         physics: const ClampingScrollPhysics(),
         itemCount: projects.length,
-        itemBuilder: (context, index) => const Column(
+        itemBuilder: (context, index) => Column(
           children: [
-            TaskWidget(),
-            SizedBox(height: 15),
+            ProjectCard(project: projects[index]),
+            const SizedBox(height: 15),
           ],
         ),
       ),
@@ -111,8 +111,13 @@ class NoProjects extends StatelessWidget {
     return const Expanded(
       child: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image(image: AssetImage('assets/images/everything_done.png')),
+            Image(
+              image: AssetImage('assets/images/everything_done.png'),
+              width: 150,
+            ),
             SizedBox(height: 10),
             Text('Everything done!', style: mediumTextStyle),
           ],

@@ -25,8 +25,8 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createNewTodo(final int projectId, final String todoTitle) =>
-      _createNewTodoUseCase(projectId, todoTitle);
+  void createNewTodo(final int projectId, final String todoTitle, final DateTime dueDate) =>
+      _createNewTodoUseCase(projectId, todoTitle, dueDate);
 
   void completeTodo(final int projectId, final TodoItem todoItem) =>
       _completeTodoUseCase(projectId, todoItem);
