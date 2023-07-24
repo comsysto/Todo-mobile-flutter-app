@@ -8,19 +8,19 @@ import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_button.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
+import 'package:todo_app/features/todo/presentation/util/dialog_utils.dart';
 import 'package:todo_app/features/todo/presentation/widget/date_time_text_field.dart';
-import 'package:todo_app/features/todo/presentation/widget/project_picker.dart';
 import 'package:todo_app/features/todo/presentation/widget/new_project_modal_sheet.dart';
+import 'package:todo_app/features/todo/presentation/widget/project_picker.dart';
 
 class NewTaskScreen extends HookConsumerWidget {
   const NewTaskScreen({super.key});
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final titleController = useTextEditingController();
     final dateController = useTextEditingController();
-    final selectedDate = useState<DateTime?>(null);
+    final selectedDateTime = useState<DateTime?>(null);
     final selectedProject = useState<Project?>(null);
 
     final projectListState = ref.watch(
@@ -48,19 +48,7 @@ class NewTaskScreen extends HookConsumerWidget {
               const SizedBox(height: 15),
               DateTimeTextField(
                 controller: dateController,
-                onTap: () async {
-                  selectedDate.value = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2030),
-                  );
-
-                  if (selectedDate.value != null) {
-                    dateController.text = DateFormat('dd.MM.yyyy').format(selectedDate.value!);
-                    ;
-                  }
-                },
+                onTap: () => _showDateTimePicker(context, selectedDateTime, dateController),
               ),
               const SizedBox(height: 15),
               Row(
@@ -103,7 +91,7 @@ class NewTaskScreen extends HookConsumerWidget {
                       context,
                       ref,
                       titleController.text,
-                      selectedDate.value,
+                      selectedDateTime.value,
                       selectedProject.value!,
                     ),
                   ),
@@ -116,7 +104,18 @@ class NewTaskScreen extends HookConsumerWidget {
     );
   }
 
-  void _showPlatformDatePicker() {}
+  Future<void> _showDateTimePicker(
+    final BuildContext context,
+    final ValueNotifier<DateTime?> selectedDateTime,
+    final TextEditingController dateController,
+  ) async {
+    await DialogUtils.showDateTimePickerDialog(
+      context: context,
+      onCupertinoDateTimeChanged: (dateTime) => selectedDateTime.value = dateTime,
+      onMaterialDateTimeChanged: (dateTime) => selectedDateTime.value = dateTime,
+    );
+    dateController.text = DateFormat('dd.MM.yyyy. HH:mm').format(selectedDateTime.value!);
+  }
 
   void _openNewProjectModalSheet(final BuildContext context) {
     showModalBottomSheet(
