@@ -32,7 +32,7 @@ class StartScreen extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: foregroundColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       width: double.infinity,
@@ -53,7 +53,7 @@ class StartScreen extends StatelessWidget {
                         radius: 40,
                         backgroundColor: Colors.black,
                         child: IconButton(
-                          color: Colors.white,
+                          color: foregroundColor,
                           onPressed: () => _redirectToHomeScreen(context),
                           icon: const Icon(Icons.chevron_right_rounded),
                         ),

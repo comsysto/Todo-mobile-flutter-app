@@ -33,7 +33,7 @@ class CustomButton extends StatelessWidget {
           ),
           ]
         ),
-        child: Text(text, style: mediumTextStyle.copyWith(color: Colors.white)),
+        child: Text(text, style: mediumTextStyle.copyWith(color: foregroundColor)),
       ),
     );
   }

@@ -26,7 +26,7 @@ class CustomTextField extends StatelessWidget {
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
-          fillColor: Colors.white,
+          fillColor: foregroundColor,
           alignLabelWithHint: true,
           isDense: true,
           suffixIcon: suffixIcon,
@@ -36,13 +36,18 @@ class CustomTextField extends StatelessWidget {
             style: formTextSyle.copyWith(color: labelColor),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: Colors.white),
+            borderSide: const BorderSide(width: 1, color: foregroundColor),
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: Colors.white),
+            borderSide: const BorderSide(width: 1, color: foregroundColor),
             borderRadius: BorderRadius.circular(10),
           ),
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: redColor),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          errorStyle: errorTextStyle,
         ),
       ),
     );
