@@ -16,7 +16,7 @@ class TodoListScreen extends ConsumerWidget {
     final todoListState = ref.watch(
       todoProvider(selectedProject!.id!).select((provider) => provider.todoListState),
     );
-
+    
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
@@ -36,7 +36,10 @@ class TodoListScreen extends ConsumerWidget {
                 data: (todoList) => Expanded(
                   child: ListView.separated(
                     physics: const ClampingScrollPhysics(),
-                    itemBuilder: (context, index) => TodoCard(todoItem: todoList[index]),
+                    itemBuilder: (context, index) => TodoCard(
+                      projectId: selectedProject.id!,
+                      todoItem: todoList[index],
+                    ),
                     separatorBuilder: (context, index) => const SizedBox(height: 15),
                     itemCount: todoList.length,
                   ),

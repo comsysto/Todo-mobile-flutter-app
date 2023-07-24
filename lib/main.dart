@@ -6,6 +6,7 @@ import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/features/todo/data/database/hive_datasource.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   runApp(const ProviderScope(child: MainApp()));
 }

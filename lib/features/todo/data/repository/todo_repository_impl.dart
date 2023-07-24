@@ -17,7 +17,7 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<void> createNewTodo(final int projectId, final TodoItem todo) async {
     final todoObject = _entityToObjectConverter.convert(todo);
-    _databaseManager.insertNewTodo(projectId, todoObject);
+    await _databaseManager.insertNewTodo(projectId, todoObject);
   }
 
   @override
@@ -29,6 +29,6 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<void> removeTodo(final int projectId, final TodoItem todo) async {
     final todoObject = _entityToObjectConverter.convert(todo);
-    _databaseManager.removeTodo(projectId, todoObject);
+    await _databaseManager.removeTodo(projectId, todoObject);
   }
 }

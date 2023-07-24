@@ -17,18 +17,21 @@ class TodoItemObjectAdapter extends TypeAdapter<TodoItemObject> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TodoItemObject(
-      title: fields[0] as String,
-      dueDate: fields[1] as DateTime?,
+      title: fields[1] as String,
+      dueDate: fields[2] as DateTime?,
+      id: fields[0] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, TodoItemObject obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.title)
+      ..write(obj.id)
       ..writeByte(1)
+      ..write(obj.title)
+      ..writeByte(2)
       ..write(obj.dueDate);
   }
 

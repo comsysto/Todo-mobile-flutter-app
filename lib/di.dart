@@ -76,14 +76,14 @@ final completeTodoUseCaseProvider = Provider<CompleteTodoUseCase>(
 );
 
 /// ************ PROVIDERS *************
-final projectProvider = ChangeNotifierProvider<ProjectProvider>(
+final projectProvider = ChangeNotifierProvider.autoDispose<ProjectProvider>(
   (ref) => ProjectProvider(
     ref.watch(getAllProjectsUseCaseProvider),
     ref.watch(createNewProjectUseCaseProvider),
   ),
 );
 
-final todoProvider = ChangeNotifierProvider.family<TodoProvider, int>(
+final todoProvider = ChangeNotifierProvider.family.autoDispose<TodoProvider, int>(
   (ref, projectId) => TodoProvider(
     ref.watch(getTodosForProjectUseCaseProvider),
     ref.watch(createNewTodoUseCaseProvider),

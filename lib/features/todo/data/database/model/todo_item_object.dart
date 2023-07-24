@@ -7,10 +7,10 @@ class TodoItemObject extends HiveObject {
   @HiveField(0)
   int? id;
 
-  @HiveField(0)
+  @HiveField(1)
   String title;
 
-  @HiveField(1)
+  @HiveField(2)
   DateTime? dueDate;
 
   TodoItemObject({required this.title, this.dueDate, this.id});
