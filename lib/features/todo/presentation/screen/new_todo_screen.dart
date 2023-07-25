@@ -31,6 +31,7 @@ class NewTodoScreen extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -65,7 +66,7 @@ class NewTodoScreen extends HookConsumerWidget {
                     child: const Row(
                       children: [
                         Icon(Icons.add, color: primaryColor),
-                        Text('New project', style: detailsTextStyle),
+                        Text('New', style: detailsTextStyle),
                       ],
                     ),
                   ),

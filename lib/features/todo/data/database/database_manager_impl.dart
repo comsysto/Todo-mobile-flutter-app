@@ -28,6 +28,7 @@ class DatabaseManagerImpl implements DatabaseManager {
   Future<void> insertNewTodo(final int projectId, final TodoItemObject todo) async {
     final projects = await Hive.openBox<ProjectObject>(projectsBox);
     final project = projects.get(projectId);
+    
     if (project != null) {
       todo.id = DateTime.now().millisecondsSinceEpoch;
       project.todoList.add(todo);
@@ -45,10 +46,10 @@ class DatabaseManagerImpl implements DatabaseManager {
   Future<void> completeTodo(final int projectId, final TodoItemObject todoToComplete) async {
     final projects = await Hive.openBox<ProjectObject>(projectsBox);
     final project = projects.get(projectId);
+
     if (project != null) {
       final index = project.todoList.indexWhere((todo) => todo.id == todoToComplete.id);
       project.todoList[index].isDone = true;
-      //project.todoList.removeWhere((todo) => todo.id == todoToComplete.id);
       await project.save();
     }
   }

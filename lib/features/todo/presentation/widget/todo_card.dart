@@ -60,5 +60,6 @@ class TodoCard extends HookConsumerWidget {
     todoItem.isDone = true;
     await ref.read(todoProvider(projectId)).completeTodo(projectId, todoItem);
     await ref.read(projectProvider).getAllProjects();
+    await ref.read(projectProvider).getTotalNumberOfCompletedTasks();
   }
 }

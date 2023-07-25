@@ -10,10 +10,10 @@ class DialogUtils {
     required final Function(DateTime) onMaterialDateTimeChanged,
   }) async =>
       Platform.isIOS
-          ? _showCupertinoDialog(context, onCupertinoDateTimeChanged)
-          : _showMaterialDialog(context, onMaterialDateTimeChanged);
+          ? _showCupertinoDateTimeDialog(context, onCupertinoDateTimeChanged)
+          : _showMaterialDateTimeDialog(context, onMaterialDateTimeChanged);
 
-  static Future<void> _showCupertinoDialog(
+  static Future<void> _showCupertinoDateTimeDialog(
     final BuildContext context,
     final Function(DateTime) onDateTimeChanged,
   ) async =>
@@ -39,7 +39,7 @@ class DialogUtils {
         ),
       );
 
-  static Future<void> _showMaterialDialog(
+  static Future<void> _showMaterialDateTimeDialog(
     final BuildContext context,
     final Function(DateTime) onMaterialDateTimeChanged,
   ) async {
@@ -68,4 +68,65 @@ class DialogUtils {
       }
     }
   }
+
+  static Future<bool> showConfirmationDialog({
+    required final BuildContext context,
+    required final String title,
+    required final String content,
+  }) =>
+      Platform.isIOS
+          ? _showCupertinoConfirmationDialog(context, title, content)
+          : _showMaterialConfirmationDialog(context, title, content);
+
+  static Future<bool> _showCupertinoConfirmationDialog(
+    final BuildContext context,
+    final String title,
+    final String content,
+  ) async =>
+      await showCupertinoDialog(
+        context: context,
+        builder: (_) {
+          return CupertinoAlertDialog(
+            title: Text(title),
+            content: Text(content),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () => Navigator.of(context).pop(false),
+                isDefaultAction: false,
+                isDestructiveAction: false,
+                child: const Text('Cancel'),
+              ),
+              CupertinoDialogAction(
+                onPressed: () => Navigator.of(context).pop(true),
+                isDefaultAction: true,
+                isDestructiveAction: true,
+                child: const Text('Yes'),
+              ),
+            ],
+          );
+        },
+      );
+
+  static Future<bool> _showMaterialConfirmationDialog(
+    final BuildContext context,
+    final String title,
+    final String content,
+  ) async =>
+      await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: const Text("Yes"),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        ),
+      );
 }

@@ -10,7 +10,9 @@ import 'package:todo_app/features/todo/domain/repository/todo_repository.dart';
 import 'package:todo_app/features/todo/domain/usecase/complete_todo_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/create_new_project_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/create_new_todo_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/delete_project_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/get_all_projects_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/get_completed_task_number_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/get_todos_for_project_use_case.dart';
 import 'package:todo_app/features/todo/presentation/riverpod/project_provider.dart';
 import 'package:todo_app/features/todo/presentation/riverpod/todo_provider.dart';
@@ -71,8 +73,16 @@ final getTodosForProjectUseCaseProvider = Provider<GetTodosForProjectUseCase>(
   (ref) => GetTodosForProjectUseCase(ref.watch(todoRepositoryProvider)),
 );
 
+final getCompletedTodoNumberUseCaseProvider = Provider<GetCompletedTodoNumberUseCase>(
+  (ref) => GetCompletedTodoNumberUseCase(ref.watch(projectRepositoryProvider)),
+);
+
 final completeTodoUseCaseProvider = Provider<CompleteTodoUseCase>(
   (ref) => CompleteTodoUseCase(ref.watch(todoRepositoryProvider)),
+);
+
+final deleteProjectUseCaseProvider = Provider<DeleteProjectUseCase>(
+  (ref) => DeleteProjectUseCase(ref.watch(projectRepositoryProvider)),
 );
 
 /// ************ PROVIDERS *************
@@ -80,6 +90,8 @@ final projectProvider = ChangeNotifierProvider.autoDispose<ProjectProvider>(
   (ref) => ProjectProvider(
     ref.watch(getAllProjectsUseCaseProvider),
     ref.watch(createNewProjectUseCaseProvider),
+    ref.watch(getCompletedTodoNumberUseCaseProvider),
+    ref.watch(deleteProjectUseCaseProvider),
   ),
 );
 

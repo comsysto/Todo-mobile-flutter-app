@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/route_generator.dart';
 import 'package:todo_app/core/style/colors.dart';
@@ -17,6 +16,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Poppins',
         brightness: Brightness.light,
@@ -30,10 +30,4 @@ class MainApp extends StatelessWidget {
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
-}
-
-void initialize() {
-  Hive.initFlutter();
-  Hive.openBox('project');
-  Hive.openBox('todo');
 }

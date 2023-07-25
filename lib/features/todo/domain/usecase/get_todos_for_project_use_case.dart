@@ -8,6 +8,6 @@ class GetTodosForProjectUseCase {
 
   Future<List<TodoItem>> call(final int projectId) async {
     final todoList = await _todoRepository.getAllTodosForProject(projectId);
-    return todoList.where((todo) => !todo.isDone).toList(); //TODO: REMOVE LATER
+    return todoList.where((todo) => !todo.isDone).toList();
   }
 }

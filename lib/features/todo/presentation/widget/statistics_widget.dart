@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/core/style/text_styles.dart';
+import 'package:todo_app/di.dart';
 
-class StatisticsWidget extends StatelessWidget {
+class StatisticsWidget extends ConsumerWidget {
   const StatisticsWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final completedTodoState = ref.watch(
+      projectProvider.select((provider) => provider.totalNumberOfCompletedTasks),
+    );
+
     return Container(
       width: double.infinity,
       decoration:  BoxDecoration(
@@ -17,27 +23,27 @@ class StatisticsWidget extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(20)
       ),
-      child:  const Column(
+      child:  Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(20.0),
             child: Text('Statistics', style: statisticsCardSmallTextStyle,),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20,10,20,0),
-            child: Text('This month', style: statisticsCardTitleTextStyle),
+          const Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text('Active projects', style: statisticsCardTitleTextStyle),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(20,0,20,10),
+            padding: const EdgeInsets.fromLTRB(20,0,20,10),
             child: Row(
               textBaseline: TextBaseline.ideographic,
               crossAxisAlignment: CrossAxisAlignment.baseline,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Tasks completed', style: statisticsCardTextStyle),
-                Text('13', style: statisticsCardNumberTextStyle),
+                const Text('Tasks completed', style: statisticsCardTextStyle),
+                Text(completedTodoState.asData!.value.toString(), style: statisticsCardNumberTextStyle),
               ],
             ),
           ),

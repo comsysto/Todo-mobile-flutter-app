@@ -39,7 +39,7 @@ class StartScreen extends StatelessWidget {
                       height: 200,
                       child: const Center(
                         child: Text(
-                          'Manage your\nprojects with Smartly',
+                          'Manage your\nprojects with Protaly',
                           style: titleTextStyle,
                           textAlign: TextAlign.center,
                         ),

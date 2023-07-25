@@ -43,7 +43,7 @@ class ProjectsScreen extends ConsumerWidget {
                   const Column(
                     children: [
                       Text('Hello Phillip!', style: boldTextStyle),
-                      Text('Software developer'),
+                      Text('Software engineer', style: TextStyle(fontSize: 12)),
                     ],
                   ),
                   const SizedBox(
@@ -52,10 +52,7 @@ class ProjectsScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 30),
-              const Text(
-                'Let\'s make habits together',
-                style: titleTextStyle,
-              ),
+              const Text('Let\'s make habits together', style: titleTextStyle),
               const SizedBox(height: 30),
               const StatisticsWidget(),
               const SizedBox(height: 20),

@@ -55,7 +55,10 @@ class ProjectPicker extends HookConsumerWidget {
             value: project,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-              child: Text(project.title),
+              child: Text(
+                project.title,
+                style: formTextSyle,
+              ),
             ),
           );
         }).toList(),

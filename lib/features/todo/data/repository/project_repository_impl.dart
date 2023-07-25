@@ -27,7 +27,6 @@ class ProjectRepositoryImpl implements ProjectRepository {
   }
 
   @override
-  Future<void> removeProject(final Project project) async{
-    await _databaseManager.removeProjectById(project.id!);
-  }
+  Future<void> removeProject(final Project project) =>
+      _databaseManager.removeProjectById(project.id!);
 }

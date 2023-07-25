@@ -3,13 +3,15 @@ import 'package:todo_app/core/style/colors.dart';
 
 const titleTextStyle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: 26,
+  fontSize: 24,
 );
 const boldTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
+  fontSize: 15,
+);
+const formTextSyle = TextStyle(
   fontSize: 18,
 );
-const formTextSyle = TextStyle(fontSize: 18);
 const mediumTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 16,
@@ -17,7 +19,7 @@ const mediumTextStyle = TextStyle(
 const statisticsCardTitleTextStyle = TextStyle(
   color: foregroundColor,
   fontWeight: FontWeight.bold,
-  fontSize: 26,
+  fontSize: 22,
 );
 const statisticsCardSmallTextStyle = TextStyle(
   color: foregroundColor,
@@ -25,12 +27,12 @@ const statisticsCardSmallTextStyle = TextStyle(
 );
 const statisticsCardTextStyle = TextStyle(
   color: foregroundColor,
-  fontSize: 22,
+  fontSize: 18,
 );
 const statisticsCardNumberTextStyle = TextStyle(
   color: foregroundColor,
   fontWeight: FontWeight.bold,
-  fontSize: 46,
+  fontSize: 38,
 );
 const detailsTextStyle = TextStyle(
   color: primaryColor,
