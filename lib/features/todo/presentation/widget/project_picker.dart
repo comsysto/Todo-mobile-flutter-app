@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/style/colors.dart';
 import 'package:todo_app/core/style/text_styles.dart';
+import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 
 class ProjectPicker extends HookConsumerWidget {
@@ -18,51 +19,87 @@ class ProjectPicker extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: foregroundColor,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
-          BoxShadow(
-            offset: Offset(0, 5),
+    return DropdownButtonFormField<Project>(
+      borderRadius: BorderRadius.circular(10),
+      dropdownColor: foregroundColor,
+      style: formTextSyle.copyWith(color: Colors.black),
+      isDense: true,
+      elevation: 6,
+      value: selectedProject,
+      decoration: InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        filled: true,
+        fillColor: foregroundColor,
+        alignLabelWithHint: true,
+        isDense: true,
+        suffixIconColor: labelColor,
+        label: Text(
+          'Choose project',
+          style: formTextSyle.copyWith(color: labelColor),
+        ),
+        border: DecoratedInputBorder(
+          shadow: const BoxShadow(
+            color: shadowColor,
             blurRadius: 10,
-            color: Colors.black12,
+            offset: Offset(1, 5),
           ),
-        ],
-      ),
-      child: DropdownButton<Project>(
-        dropdownColor: foregroundColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        isExpanded: true,
-        underline: const SizedBox(),
-        value: selectedProject,
-        hint: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-          child: Text(
-            'Choose project',
-            style: formTextSyle.copyWith(color: labelColor),
+          child: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
-        icon: const Icon(Icons.arrow_drop_down),
-        iconSize: 36,
-        iconEnabledColor: labelColor,
-        elevation: 10,
-        style: formTextSyle.copyWith(color: Colors.black),
-        onChanged: onChanged,
-        items: projectList.map<DropdownMenuItem<Project>>((project) {
-          return DropdownMenuItem<Project>(
-            value: project,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-              child: Text(
-                project.title,
-                style: formTextSyle,
-              ),
-            ),
-          );
-        }).toList(),
+        enabledBorder: DecoratedInputBorder(
+          shadow: const BoxShadow(
+            color: shadowColor,
+            blurRadius: 10,
+            offset: Offset(1, 5),
+          ),
+          child: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        focusedBorder: DecoratedInputBorder(
+          shadow: const BoxShadow(
+            color: shadowColor,
+            blurRadius: 10,
+            offset: Offset(1, 5),
+          ),
+          child: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        errorBorder: DecoratedInputBorder(
+          shadow: const BoxShadow(
+            color: shadowColor,
+            blurRadius: 10,
+            offset: Offset(1, 5),
+          ),
+          child: OutlineInputBorder(
+            borderSide: const BorderSide(width: 1, color: redColor),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        errorStyle: errorTextStyle,
       ),
+      validator: _validateProject,
+      items: projectList.map<DropdownMenuItem<Project>>(
+        (project) {
+          return DropdownMenuItem(
+            value: project,
+            child: Text(project.title),
+          );
+        },
+      ).toList(),
+      onChanged: onChanged,
     );
+  }
+
+  String? _validateProject(value) {
+    if (value == null) {
+      return 'Please select a project';
+    }
+    return null;
   }
 }

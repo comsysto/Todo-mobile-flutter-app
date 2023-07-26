@@ -1,0 +1,8 @@
+- Light & Dark mode
+- Project list screen
+- Animations
+- Due date local notification
+- Isar database maybe?
+- Firestore implementation (Mediator design pattern maybe)
+- Authentication
+- Localization
