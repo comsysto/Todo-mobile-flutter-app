@@ -86,12 +86,6 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
     );
   }
 
-  String? _validateTitle(final String? value) {
-    if (value == null || value.isEmpty) {
-      print('Not good');
-      return 'Task title cannot be empty';
-    }
-    print(value);
-    return null;
-  }
+  String? _validateTitle(final String? value) =>
+      value == null || value.isEmpty ? 'Task title cannot be empty' : null;
 }

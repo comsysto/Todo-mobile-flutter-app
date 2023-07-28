@@ -86,22 +86,17 @@ class ProjectPicker extends HookConsumerWidget {
         errorStyle: Theme.of(context).textTheme.error,
       ),
       validator: _validateProject,
-      items: projectList.map<DropdownMenuItem<Project>>(
-        (project) {
-          return DropdownMenuItem(
-            value: project,
-            child: Text(project.title),
-          );
-        },
-      ).toList(),
+      items: projectList
+          .map<DropdownMenuItem<Project>>(
+            (project) => DropdownMenuItem(
+              value: project,
+              child: Text(project.title),
+            ),
+          )
+          .toList(),
       onChanged: onChanged,
     );
   }
 
-  String? _validateProject(value) {
-    if (value == null) {
-      return 'Please select a project';
-    }
-    return null;
-  }
+  String? _validateProject(value) => value == null ? 'Please select a project' : null;
 }

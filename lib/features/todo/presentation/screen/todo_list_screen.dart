@@ -103,11 +103,11 @@ class TasksList extends ConsumerWidget {
           Expanded(
             child: ListView.separated(
               physics: const ClampingScrollPhysics(),
-              itemBuilder: (context, index) => TodoCard(
+              itemBuilder: (_, index) => TodoCard(
                 projectId: selectedProjectId,
                 todoItem: todoList[index],
               ),
-              separatorBuilder: (context, index) => const SizedBox(height: 15),
+              separatorBuilder: (_, index) => const SizedBox(height: 15),
               itemCount: todoList.length,
             ),
           ),

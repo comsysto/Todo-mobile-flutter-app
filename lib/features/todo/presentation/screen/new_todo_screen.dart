@@ -141,7 +141,7 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
       context: context,
       isDismissible: false,
       isScrollControlled: true,
-      builder: (final BuildContext context) => const NewProjectModalSheet(),
+      builder: (_) => const NewProjectModalSheet(),
     );
   }
 

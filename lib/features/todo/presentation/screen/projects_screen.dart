@@ -90,7 +90,7 @@ class ProjectList extends StatelessWidget {
       child: ListView.separated(
         physics: const ClampingScrollPhysics(),
         itemCount: projects.length,
-        itemBuilder: (context, index) => ProjectCard(project: projects[index]),
+        itemBuilder: (_, index) => ProjectCard(project: projects[index]),
         separatorBuilder: (context, _) => const SizedBox(height: 15),
       ),
     );
