@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
 
 class DateTimeTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -12,29 +10,31 @@ class DateTimeTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 5,
-      shadowColor: shadowColor,
+      shadowColor: Theme.of(context).shadowColor,
       borderRadius: BorderRadius.circular(10),
       child: TextField(
-        style: formTextSyle,
+        style: Theme.of(context).textTheme.bodyMedium,
         controller: controller,
         decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
-          fillColor: foregroundColor,
+          fillColor: Theme.of(context).cardTheme.color,
           alignLabelWithHint: true,
           isDense: true,
           suffixIcon: const Icon(Icons.calendar_month_rounded),
-          suffixIconColor: labelColor,
+          suffixIconColor: Theme.of(context).iconTheme.color,
           label: Text(
             'Due date',
-            style: formTextSyle.copyWith(color: labelColor),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).iconTheme.color,
+                ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderSide: BorderSide(width: 1, color: Theme.of(context).cardTheme.color!),
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderSide: BorderSide(width: 1, color: Theme.of(context).cardTheme.color!),
             borderRadius: BorderRadius.circular(10),
           ),
         ),

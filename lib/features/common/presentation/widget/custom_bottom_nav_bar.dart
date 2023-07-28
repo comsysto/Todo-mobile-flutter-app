@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/style/colors.dart';
 
 const _icons = [
   Icons.home_rounded,
@@ -25,12 +24,12 @@ class CustomBottomNavBar extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
           decoration: BoxDecoration(
-            color: const Color(0xFF000920),
+            color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: shadowColor,
-                offset: Offset(0, 5),
+                color: Theme.of(context).shadowColor,
+                offset: const Offset(0, 5),
                 blurRadius: 10,
               ),
             ],
@@ -55,7 +54,7 @@ class CustomBottomNavBar extends StatelessWidget {
                             height: 3,
                             width: 30,
                             decoration: BoxDecoration(
-                              color: secondaryColor,
+                              color: Theme.of(context).colorScheme.secondary,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             duration: const Duration(milliseconds: 350),
@@ -65,7 +64,9 @@ class CustomBottomNavBar extends StatelessWidget {
                       Icon(
                         _icons[index],
                         size: 30,
-                        color: selectedNavBarIndex == index ? secondaryColor : Colors.white,
+                        color: selectedNavBarIndex == index
+                            ? Theme.of(context).colorScheme.secondary
+                            : Colors.white,
                       ),
                     ],
                   ),

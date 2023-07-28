@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
-import 'package:todo_app/features/todo/presentation/widget/statistics_widget.dart';
 import 'package:todo_app/features/todo/presentation/widget/project_card.dart';
+import 'package:todo_app/features/todo/presentation/widget/statistics_widget.dart';
 
 class ProjectsScreen extends ConsumerWidget {
   const ProjectsScreen({super.key});
@@ -19,7 +17,7 @@ class ProjectsScreen extends ConsumerWidget {
     );
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
@@ -40,10 +38,10 @@ class ProjectsScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const Column(
+                  Column(
                     children: [
-                      Text('Hello Phillip!', style: boldTextStyle),
-                      Text('Software engineer', style: TextStyle(fontSize: 12)),
+                      Text('Hello Phillip!', style: Theme.of(context).textTheme.titleSmall),
+                      Text('Software engineer', style: Theme.of(context).textTheme.bodySmall),
                     ],
                   ),
                   const SizedBox(
@@ -52,15 +50,18 @@ class ProjectsScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 30),
-              const Text('Let\'s make habits together', style: titleTextStyle),
+              Text(
+                'Let\'s make habits together today',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 30),
               const StatisticsWidget(),
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Projects', style: titleTextStyle),
-                  Text('See all', style: detailsTextStyle),
+                  Text('Projects', style: Theme.of(context).textTheme.titleLarge),
+                  Text('See all', style: Theme.of(context).textTheme.displaySmall),
                 ],
               ),
               const SizedBox(height: 10),
@@ -86,15 +87,11 @@ class ProjectList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
+      child: ListView.separated(
         physics: const ClampingScrollPhysics(),
         itemCount: projects.length,
-        itemBuilder: (context, index) => Column(
-          children: [
-            ProjectCard(project: projects[index]),
-            const SizedBox(height: 15),
-          ],
-        ),
+        itemBuilder: (context, index) => ProjectCard(project: projects[index]),
+        separatorBuilder: (context, _) => const SizedBox(height: 15),
       ),
     );
   }
@@ -105,18 +102,18 @@ class NoProjects extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
+    return Expanded(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image(
+            const Image(
               image: AssetImage('assets/images/everything_done.png'),
               width: 150,
             ),
-            SizedBox(height: 10),
-            Text('Everything done!', style: mediumTextStyle),
+            const SizedBox(height: 10),
+            Text('Everything done!', style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
       ),

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/core/route_generator.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
+import 'package:todo_app/features/common/presentation/style/theme.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 
 class ProjectCard extends ConsumerWidget {
@@ -17,13 +16,13 @@ class ProjectCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: foregroundColor,
+        color: Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: shadowColor,
+            color: Theme.of(context).cardTheme.shadowColor!,
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -34,8 +33,14 @@ class ProjectCard extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(project.title, style: mediumTextStyle),
-              Text(_getProjectTaskLength(), style: detailsTextStyle),
+              Text(
+                project.title,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              Text(
+                _getProjectTaskLength(),
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
             ],
           ),
           const Spacer(),
@@ -84,7 +89,7 @@ class DateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: const Color(0xFFEFEFEF),
+      backgroundColor: Theme.of(context).cardTheme.surfaceTintColor,
       radius: 25,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -92,11 +97,11 @@ class DateWidget extends StatelessWidget {
         children: [
           Text(
             DateFormat('MMM').format(date),
-            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.dateSmall,
           ),
           Text(
             DateFormat('dd').format(date),
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+            style: Theme.of(context).textTheme.dateLarge,
           ),
         ],
       ),

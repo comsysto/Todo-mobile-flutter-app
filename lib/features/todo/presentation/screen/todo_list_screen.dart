@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
+import 'package:todo_app/features/common/presentation/style/text_styles.dart';
+import 'package:todo_app/features/common/presentation/style/theme.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 import 'package:todo_app/features/todo/presentation/util/dialog_utils.dart';
@@ -21,18 +21,18 @@ class TodoListScreen extends ConsumerWidget {
     );
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(child: Text('Task list', style: boldTextStyle)),
+              Center(child: Text('Task list', style: Theme.of(context).textTheme.titleSmall)),
               const SizedBox(height: 50),
               SizedBox(
                 width: 250,
-                child: Text(selectedProject.title, style: titleTextStyle),
+                child: Text(selectedProject.title, style: Theme.of(context).textTheme.titleLarge),
               ),
               const SizedBox(height: 20),
               todoListState!.when(
@@ -47,21 +47,10 @@ class TodoListScreen extends ConsumerWidget {
                         onDeletePressed: () =>
                             _showDeleteConfirmationDialog(context, ref, selectedProject),
                       ),
-                /* Expanded(
-                        child: ListView.separated(
-                          physics: const ClampingScrollPhysics(),
-                          itemBuilder: (context, index) => TodoCard(
-                            projectId: selectedProject.id!,
-                            todoItem: todoList[index],
-                          ),
-                          separatorBuilder: (context, index) => const SizedBox(height: 15),
-                          itemCount: todoList.length,
-                        ),
-                      ), */
-                error: (error, _) => const Center(
+                error: (error, _) => Center(
                   child: Text(
                     'There was an error...',
-                    style: mediumTextStyle,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 loading: () => const CircularProgressIndicator.adaptive(),
@@ -88,7 +77,7 @@ class TodoListScreen extends ConsumerWidget {
       await ref.read(projectProvider).getAllProjects();
       await ref.read(projectProvider).getTotalNumberOfCompletedTasks();
       if (context.mounted) {
-         Navigator.of(context).pop();
+        Navigator.of(context).pop();
       }
     }
   }
@@ -154,13 +143,13 @@ class NoTasks extends ConsumerWidget {
               width: 200,
             ),
             const SizedBox(height: 20),
-            const Text('Good job, no tasks left!', style: mediumTextStyle),
+            Text('Good job, no tasks left!', style: Theme.of(context).textTheme.titleMedium),
             const Spacer(),
             TextButton(
               onPressed: onDeletePressed,
-              child: const Text(
+              child: Text(
                 'Delete project',
-                style: errorTextStyle,
+                style: Theme.of(context).textTheme.error,
               ),
             ),
           ],

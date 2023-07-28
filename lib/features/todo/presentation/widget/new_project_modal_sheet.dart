@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_button.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
@@ -25,7 +23,7 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
-          color: backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(20),
         ),
         height: 550,
@@ -39,7 +37,7 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const Text('New project', style: boldTextStyle),
+                  Text('New project', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 20),
                   CustomTextField(
                     controller: titleController,
@@ -61,7 +59,9 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
                           onPressed: () => Navigator.of(context).pop(),
                           child: Text(
                             'Cancel',
-                            style: mediumTextStyle.copyWith(color: redColor),
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
                           ),
                         ),
                       ),

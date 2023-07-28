@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
+import 'package:todo_app/features/common/presentation/style/colors.dart';
+import 'package:todo_app/features/common/presentation/style/theme.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 
@@ -21,67 +21,69 @@ class ProjectPicker extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DropdownButtonFormField<Project>(
       borderRadius: BorderRadius.circular(10),
-      dropdownColor: foregroundColor,
-      style: formTextSyle.copyWith(color: Colors.black),
+      dropdownColor: Theme.of(context).cardTheme.color,
+      style: Theme.of(context).textTheme.bodyMedium,
       isDense: true,
       elevation: 6,
       value: selectedProject,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.never,
         filled: true,
-        fillColor: foregroundColor,
+        fillColor: Theme.of(context).cardTheme.color,
         alignLabelWithHint: true,
         isDense: true,
-        suffixIconColor: labelColor,
+        suffixIconColor: Theme.of(context).iconTheme.color,
         label: Text(
           'Choose project',
-          style: formTextSyle.copyWith(color: labelColor),
+          style: Theme.of(context).textTheme.displayMedium!.copyWith(
+                color: Theme.of(context).iconTheme.color,
+              ),
         ),
         border: DecoratedInputBorder(
-          shadow: const BoxShadow(
-            color: shadowColor,
+          shadow: BoxShadow(
+            color: Theme.of(context).shadowColor,
             blurRadius: 10,
-            offset: Offset(1, 5),
+            offset: const Offset(1, 5),
           ),
           child: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderSide: BorderSide(width: 1, color: Theme.of(context).cardTheme.color!),
             borderRadius: BorderRadius.circular(10),
           ),
         ),
         enabledBorder: DecoratedInputBorder(
-          shadow: const BoxShadow(
-            color: shadowColor,
+          shadow: BoxShadow(
+            color: Theme.of(context).shadowColor,
             blurRadius: 10,
-            offset: Offset(1, 5),
+            offset: const Offset(1, 5),
           ),
           child: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderSide: BorderSide(width: 1, color: Theme.of(context).cardTheme.color!),
             borderRadius: BorderRadius.circular(10),
           ),
         ),
         focusedBorder: DecoratedInputBorder(
-          shadow: const BoxShadow(
-            color: shadowColor,
+          shadow: BoxShadow(
+            color: Theme.of(context).shadowColor,
             blurRadius: 10,
-            offset: Offset(1, 5),
+            offset: const Offset(1, 5),
           ),
           child: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: foregroundColor),
+            borderSide: BorderSide(width: 1, color: Theme.of(context).cardTheme.color!),
             borderRadius: BorderRadius.circular(10),
           ),
         ),
         errorBorder: DecoratedInputBorder(
-          shadow: const BoxShadow(
-            color: shadowColor,
+          shadow: BoxShadow(
+            color: Theme.of(context).shadowColor,
             blurRadius: 10,
-            offset: Offset(1, 5),
+            offset: const Offset(1, 5),
           ),
           child: OutlineInputBorder(
-            borderSide: const BorderSide(width: 1, color: redColor),
+            borderSide: const BorderSide(width: 1, color: redColorLight),
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        errorStyle: errorTextStyle,
+        errorStyle: Theme.of(context).textTheme.error,
       ),
       validator: _validateProject,
       items: projectList.map<DropdownMenuItem<Project>>(

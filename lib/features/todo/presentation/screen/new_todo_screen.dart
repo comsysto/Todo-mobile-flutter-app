@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_button.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
@@ -37,7 +35,7 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
     );
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
@@ -47,9 +45,9 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(child: Text('New task', style: boldTextStyle)),
+                Center(child: Text('New task', style: Theme.of(context).textTheme.titleSmall)),
                 const SizedBox(height: 50),
-                const Text('New challange to\ncomplete', style: titleTextStyle),
+                Text('New challange to\ncomplete', style: Theme.of(context).textTheme.titleLarge),
                 const SizedBox(height: 30),
                 CustomTextField(
                   controller: titleController,
@@ -73,10 +71,10 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                     ),
                     TextButton(
                       onPressed: () => _openNewProjectModalSheet(context),
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.add, color: primaryColor),
-                          Text('New', style: detailsTextStyle),
+                          Icon(Icons.add, color: Theme.of(context).colorScheme.secondary),
+                          Text('New', style: Theme.of(context).textTheme.displaySmall),
                         ],
                       ),
                     ),
@@ -92,7 +90,9 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                         onPressed: () => _popToTaskScreen(context),
                         child: Text(
                           'Cancel',
-                          style: mediumTextStyle.copyWith(color: redColor),
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
                         ),
                       ),
                     ),
@@ -155,7 +155,6 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
     final Project? project,
   ) async {
     if (_formKey.currentState!.validate()) {
-      print('Allez gut');
       await ref
           .read(todoProvider(project!.id!))
           .createNewTodo(project.id!, title, dueDate ?? DateTime.now());
@@ -163,8 +162,6 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
         _popToTaskScreen(context);
         ref.read(projectProvider).getAllProjects();
       }
-    } else {
-      print('Nicht gut');
     }
   }
 }

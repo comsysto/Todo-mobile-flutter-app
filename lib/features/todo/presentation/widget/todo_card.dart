@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 
@@ -24,13 +22,13 @@ class TodoCard extends HookConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
-        color: foregroundColor,
+        color: Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
             blurRadius: 10,
-            color: shadowColor,
+            offset: const Offset(0, 5),
+            color: Theme.of(context).shadowColor,
           ),
         ],
       ),
@@ -39,7 +37,7 @@ class TodoCard extends HookConsumerWidget {
         children: [
           Text(
             todoItem.title,
-            style: formTextSyle.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               decoration: checkState.value ? TextDecoration.lineThrough : null,
             ),
           ),

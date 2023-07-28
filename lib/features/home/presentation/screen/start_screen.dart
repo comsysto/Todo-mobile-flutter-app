@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/core/route_generator.dart';
-import 'package:todo_app/core/style/colors.dart';
-import 'package:todo_app/core/style/text_styles.dart';
+import 'package:todo_app/features/common/presentation/style/colors.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -14,7 +13,7 @@ class StartScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [secondaryColor, primaryColor],
+            colors: [secondaryColorLight, primaryColorLight],
           ),
         ),
         child: SafeArea(
@@ -32,15 +31,15 @@ class StartScreen extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: foregroundColor,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       width: double.infinity,
                       height: 200,
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'Manage your\nprojects with Protaly',
-                          style: titleTextStyle,
+                          style: Theme.of(context).textTheme.titleLarge,
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -53,7 +52,7 @@ class StartScreen extends StatelessWidget {
                         radius: 40,
                         backgroundColor: Colors.black,
                         child: IconButton(
-                          color: foregroundColor,
+                          color: foregroundColorLight,
                           onPressed: () => _redirectToHomeScreen(context),
                           icon: const Icon(Icons.chevron_right_rounded),
                         ),

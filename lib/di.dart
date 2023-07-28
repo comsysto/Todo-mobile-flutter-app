@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:todo_app/features/common/presentation/riverpod/app_theme_provider.dart';
 import 'package:todo_app/features/todo/data/converter/project_converter.dart';
 import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
 import 'package:todo_app/features/todo/data/database/database_manager.dart';
@@ -102,4 +103,8 @@ final todoProvider = ChangeNotifierProvider.family.autoDispose<TodoProvider, int
     ref.watch(completeTodoUseCaseProvider),
     projectId,
   ),
+);
+
+final appThemeProvider = ChangeNotifierProvider.autoDispose<AppThemeProvider>(
+  (ref) => AppThemeProvider(),
 );
