@@ -97,19 +97,25 @@ class ProjectList extends StatelessWidget {
   }
 }
 
-class NoProjects extends StatelessWidget {
+class NoProjects extends ConsumerWidget {
   const NoProjects({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkThemeState = ref.watch(appThemeProvider).isDarkMode;
     return Expanded(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            isDarkThemeState ?
             const Image(
-              image: AssetImage('assets/images/everything_done.png'),
+              image: AssetImage('assets/images/everything_done_dark.png'),
+              width: 150,
+            ) :
+            const Image(
+              image: AssetImage('assets/images/everything_done_light.png'),
               width: 150,
             ),
             const SizedBox(height: 10),

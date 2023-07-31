@@ -1,4 +1,5 @@
-- Light & Dark mode
+- Light & Dark mode images
+- Splash screen & icon
 - Project list screen
 - Animations
 - Due date local notification

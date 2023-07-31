@@ -131,6 +131,7 @@ class NoTasks extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkThemeState = ref.watch(appThemeProvider).isDarkMode;
     return Expanded(
       child: Center(
         child: Column(
@@ -138,8 +139,13 @@ class NoTasks extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
+            isDarkThemeState ? 
             const Image(
-              image: AssetImage('assets/images/success.png'),
+              image: AssetImage('assets/images/success_dark.png'),
+              width: 200,
+            ) :
+            const Image(
+              image: AssetImage('assets/images/success_light.png'),
               width: 200,
             ),
             const SizedBox(height: 20),

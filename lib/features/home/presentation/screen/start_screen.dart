@@ -9,11 +9,14 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [secondaryColorLight, primaryColorLight],
+            colors: [
+              Theme.of(context).bannerTheme.surfaceTintColor!,
+              Theme.of(context).bannerTheme.backgroundColor!,
+            ],
           ),
         ),
         child: SafeArea(
