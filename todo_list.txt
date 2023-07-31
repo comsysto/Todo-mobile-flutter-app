@@ -1,4 +1,3 @@
-- Splash screen & icon
 - Project list screen
 - Animations
 - Due date local notification
