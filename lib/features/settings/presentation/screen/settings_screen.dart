@@ -42,6 +42,11 @@ class SettingsScreen extends ConsumerWidget {
                   )
                 ],
               ),
+              const Spacer(),
+              Text(
+                'Coded with love at Comsysto Reply ©️',
+                style: Theme.of(context).textTheme.displaySmall,
+              )
             ],
           ),
         ),

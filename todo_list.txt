@@ -1,4 +1,4 @@
-- Light & Dark mode images
+- Shared preferences
 - Splash screen & icon
 - Project list screen
 - Animations
