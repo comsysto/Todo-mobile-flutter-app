@@ -1,4 +1,3 @@
-- Shared preferences
 - Splash screen & icon
 - Project list screen
 - Animations
