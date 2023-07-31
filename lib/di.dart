@@ -1,4 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/features/common/data/source_local/manager/shared_prefs_manager_impl.dart';
+import 'package:todo_app/features/common/domain/manager/shared_prefs_manager.dart';
 import 'package:todo_app/features/common/presentation/riverpod/app_theme_provider.dart';
 import 'package:todo_app/features/todo/data/converter/project_converter.dart';
 import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
@@ -18,9 +21,15 @@ import 'package:todo_app/features/todo/domain/usecase/get_todos_for_project_use_
 import 'package:todo_app/features/todo/presentation/riverpod/project_provider.dart';
 import 'package:todo_app/features/todo/presentation/riverpod/todo_provider.dart';
 
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) => throw UnimplementedError());
+
 /// ************ MANAGERS *************
 final databaseManagerProvider = Provider<DatabaseManager>(
   (ref) => DatabaseManagerImpl(),
+);
+
+final sharedPrefsManagerProvider = Provider<SharedPrefsManager>(
+  (ref) => SharedPrefsManagerImpl(ref.watch(sharedPreferencesProvider)),
 );
 
 /// ************ CONVERTERS *************
@@ -106,5 +115,5 @@ final todoProvider = ChangeNotifierProvider.family.autoDispose<TodoProvider, int
 );
 
 final appThemeProvider = ChangeNotifierProvider.autoDispose<AppThemeProvider>(
-  (ref) => AppThemeProvider(),
+  (ref) => AppThemeProvider(ref.watch(sharedPrefsManagerProvider)),
 );
