@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/route_generator.dart';
@@ -25,6 +26,7 @@ class HomeScreen extends HookConsumerWidget {
       ),
       bottomNavigationBar: CustomBottomNavBar(
         onTabChanged: (index) {
+          HapticFeedback.mediumImpact();
           if (index == 1) {
             _redirectToNewTaskScreen(context);
             return;

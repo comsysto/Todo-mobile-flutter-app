@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/core/route_generator.dart';
@@ -45,7 +46,10 @@ class ProjectCard extends ConsumerWidget {
           ),
           const Spacer(),
           IconButton(
-            onPressed: () => _redirectToTaskList(context, ref),
+            onPressed: () {
+              HapticFeedback.mediumImpact();
+              _redirectToTaskList(context, ref);
+            },
             icon: const Icon(Icons.chevron_right_rounded),
           ),
         ],

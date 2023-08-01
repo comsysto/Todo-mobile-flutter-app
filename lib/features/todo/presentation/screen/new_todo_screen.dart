@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -70,7 +71,10 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () => _openNewProjectModalSheet(context),
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        _openNewProjectModalSheet(context);
+                      },
                       child: Row(
                         children: [
                           Icon(Icons.add, color: Theme.of(context).colorScheme.secondary),
@@ -98,13 +102,16 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                     ),
                     CustomButton(
                       text: 'Create',
-                      onPressed: () => _createTask(
-                        context,
-                        ref,
-                        titleController.text,
-                        selectedDateTime.value,
-                        selectedProject.value,
-                      ),
+                      onPressed: () {
+                        HapticFeedback.mediumImpact();
+                        _createTask(
+                          context,
+                          ref,
+                          titleController.text,
+                          selectedDateTime.value,
+                          selectedProject.value,
+                        );
+                      },
                     ),
                   ],
                 ),

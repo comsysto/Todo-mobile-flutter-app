@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/di.dart';
@@ -44,6 +45,7 @@ class TodoCard extends HookConsumerWidget {
           Checkbox.adaptive(
             value: checkState.value,
             onChanged: (newValue) {
+              HapticFeedback.mediumImpact();
               checkState.value = newValue!;
               _completeTodo(ref);
             },

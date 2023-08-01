@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/di.dart';
@@ -69,6 +70,7 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
                         text: 'Create',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            HapticFeedback.mediumImpact();
                             ref.read(projectProvider).createNewProject(titleController.text);
                             ref.read(projectProvider).getAllProjects();
                             Navigator.of(context).pop();
