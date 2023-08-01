@@ -4,11 +4,13 @@ import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 import 'package:todo_app/features/todo/domain/usecase/complete_todo_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/create_new_todo_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/get_todos_for_project_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/send_notification_use_case.dart';
 
 class TodoProvider extends ChangeNotifier {
   final GetTodosForProjectUseCase _getTodosForProjectUseCase;
   final CreateNewTodoUseCase _createNewTodoUseCase;
   final CompleteTodoUseCase _completeTodoUseCase;
+  final SendNotificationUseCase _sendNotificationUseCase;
   final int projectId;
   AsyncValue<List<TodoItem>>? todoListState;
 
@@ -16,6 +18,7 @@ class TodoProvider extends ChangeNotifier {
     this._getTodosForProjectUseCase,
     this._createNewTodoUseCase,
     this._completeTodoUseCase,
+    this._sendNotificationUseCase,
     this.projectId,
   ) {
     getAllTodosForProject(projectId);
@@ -33,8 +36,10 @@ class TodoProvider extends ChangeNotifier {
     final int projectId,
     final String todoTitle,
     final DateTime dueDate,
-  ) =>
-      _createNewTodoUseCase(projectId, todoTitle, dueDate);
+  ) async {
+    await _createNewTodoUseCase(projectId, todoTitle, dueDate);
+    _sendNotificationUseCase(projectId, todoTitle, dueDate);
+  }
 
   Future<void> completeTodo(final int projectId, final TodoItem todoItem) async {
     await _completeTodoUseCase(projectId, todoItem);

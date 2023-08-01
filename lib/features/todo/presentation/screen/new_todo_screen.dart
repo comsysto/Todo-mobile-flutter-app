@@ -65,7 +65,7 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                   children: [
                     Expanded(
                       child: ProjectPicker(
-                        projectList: projectListState?.value! ?? <Project>[],
+                        projectList: projectListState?.value ?? <Project>[],
                         selectedProject: selectedProject.value,
                         onChanged: (project) => selectedProject.value = project,
                       ),

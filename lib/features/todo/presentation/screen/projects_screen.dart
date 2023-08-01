@@ -22,6 +22,7 @@ class ProjectsScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,19 +52,13 @@ class ProjectsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 30),
               Text(
-                'Let\'s make habits together today',
+                'Let\'s make habits\ntogether',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 30),
               const StatisticsWidget(),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Projects', style: Theme.of(context).textTheme.titleLarge),
-                  Text('See all', style: Theme.of(context).textTheme.displaySmall),
-                ],
-              ),
+              Text('Projects', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 10),
               projectListState!.when(
                 data: (projectList) =>

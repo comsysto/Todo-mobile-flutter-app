@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/route_generator.dart';
+import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/style/colors.dart';
 
-class StartScreen extends StatelessWidget {
+class StartScreen extends ConsumerWidget {
   const StartScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(notificationServiceProvider).init();
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -51,13 +54,15 @@ class StartScreen extends StatelessWidget {
                       bottom: -40,
                       left: 50,
                       right: 50,
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.black,
-                        child: IconButton(
-                          color: foregroundColorLight,
-                          onPressed: () => _redirectToHomeScreen(context),
-                          icon: const Icon(Icons.chevron_right_rounded),
+                      child: GestureDetector(
+                        onTap: () => _redirectToHomeScreen(context),
+                        child: const CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.black,
+                          child: Icon(
+                            Icons.chevron_right_rounded,
+                            color: foregroundColorLight,
+                          ),
                         ),
                       ),
                     ),
