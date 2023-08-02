@@ -10,15 +10,16 @@ import 'package:todo_app/features/todo/presentation/util/dialog_utils.dart';
 import 'package:todo_app/features/todo/presentation/widget/todo_card.dart';
 
 class TodoListScreen extends ConsumerWidget {
-  const TodoListScreen({super.key});
+  final int? projectId;
+
+  const TodoListScreen({super.key, this.projectId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedProject = ref.watch(
-      projectProvider.select((provider) => provider.selectedProject),
-    );
+    final selectedProject =
+        ref.watch(projectProvider.select((provider) => provider.selectedProject!));
     final todoListState = ref.watch(
-      todoProvider(selectedProject!.id!).select((provider) => provider.todoListState),
+      todoProvider(selectedProject.id!).select((provider) => provider.todoListState),
     );
 
     return Scaffold(

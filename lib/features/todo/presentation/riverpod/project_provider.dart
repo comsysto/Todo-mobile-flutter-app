@@ -3,11 +3,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
 import 'package:todo_app/features/todo/domain/usecase/create_new_project_use_case.dart';
 import 'package:todo_app/features/todo/domain/usecase/delete_project_use_case.dart';
-import 'package:todo_app/features/todo/domain/usecase/get_all_projects_use_case.dart';
-import 'package:todo_app/features/todo/domain/usecase/get_completed_task_number_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/get_projects_use_case.dart';
+import 'package:todo_app/features/todo/domain/usecase/get_completed_todo_number_use_case.dart';
 
 class ProjectProvider extends ChangeNotifier {
-  final GetAllProjectsUseCase _getAllProjectsUseCase;
+  final GetProjectsUseCase _getProjectsUseCase;
   final CreateNewProjectUseCase _createNewProjectUseCase;
   final GetCompletedTodoNumberUseCase _getCompletedTodoNumberUseCase;
   final DeleteProjectUseCase _deleteProjectUseCase;
@@ -17,7 +17,7 @@ class ProjectProvider extends ChangeNotifier {
   Project? _selectedProject;
 
   ProjectProvider(
-    this._getAllProjectsUseCase,
+    this._getProjectsUseCase,
     this._createNewProjectUseCase,
     this._getCompletedTodoNumberUseCase,
     this._deleteProjectUseCase,
@@ -30,12 +30,17 @@ class ProjectProvider extends ChangeNotifier {
     projectListState = const AsyncValue.loading();
     notifyListeners();
 
-    projectListState = await AsyncValue.guard(() => _getAllProjectsUseCase());
+    projectListState = await AsyncValue.guard(() => _getProjectsUseCase.getAll());
     notifyListeners();
   }
 
   Future<void> getTotalNumberOfCompletedTasks() async {
     totalNumberOfCompletedTasks = AsyncValue.data(await _getCompletedTodoNumberUseCase());
+    notifyListeners();
+  }
+
+  Future<void> getProjectById(final int projectId) async {
+    _selectedProject = await _getProjectsUseCase.getById(projectId);
     notifyListeners();
   }
 

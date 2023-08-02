@@ -6,11 +6,11 @@ import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin _localNotifications;
-  final BehaviorSubject<String?> _onNotification;
+  final BehaviorSubject<String?> onNotification;
 
   const NotificationService(
     this._localNotifications,
-    this._onNotification,
+    this.onNotification,
   );
 
   Future<void> init() async {
@@ -63,9 +63,14 @@ class NotificationService {
       iOS: darwinSettings,
     );
 
+    final details = await _localNotifications.getNotificationAppLaunchDetails();
+    if (details != null && details.didNotificationLaunchApp) {
+      onNotification.add(details.notificationResponse?.payload);
+    }
+
     await _localNotifications.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (details) => _onNotification.add(details.payload),
+      onDidReceiveNotificationResponse: (details) => onNotification.add(details.payload),
     );
   }
 

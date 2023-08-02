@@ -3,6 +3,7 @@ import 'package:todo_app/features/todo/data/database/model/todo_item_object.dart
 
 abstract class DatabaseManager {
   Future<List<ProjectObject>> getAllProjects();
+  Future<ProjectObject> getProjectById(int projectId);
   Future<void> insertNewProject(ProjectObject project);
   Future<void> removeProjectById(int id);
 

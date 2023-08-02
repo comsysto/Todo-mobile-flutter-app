@@ -21,6 +21,12 @@ class ProjectRepositoryImpl implements ProjectRepository {
   }
 
   @override
+  Future<Project> getProjectById(int projectId) async {
+    final projectObject = await _databaseManager.getProjectById(projectId);
+    return _objectToEntityConverter.convert(projectObject);
+  }
+
+  @override
   Future<void> createNewProject(final Project project) async {
     final projectObject = _entityToObjectConverter.convert(project);
     await _databaseManager.insertNewProject(projectObject);

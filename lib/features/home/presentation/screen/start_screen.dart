@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/core/route_generator.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/style/colors.dart';
+import 'package:todo_app/features/todo/presentation/screen/todo_list_screen.dart';
 
 class StartScreen extends ConsumerWidget {
   const StartScreen({super.key});
@@ -10,6 +11,10 @@ class StartScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(notificationServiceProvider).init();
+    ref
+        .read(notificationServiceProvider)
+        .onNotification
+        .listen((payload) async => await _onClickedNotification(context, payload, ref));
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -74,6 +79,23 @@ class StartScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _onClickedNotification(
+    final BuildContext context,
+    final String? payload,
+    final WidgetRef ref,
+  ) async {
+    if (payload != null) {
+      final projectId = int.parse(payload);
+      await ref.read(projectProvider).getProjectById(projectId);
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => TodoListScreen(projectId: projectId),
+        ),
+      );
+    }
   }
 
   void _redirectToHomeScreen(final BuildContext context) =>

@@ -13,6 +13,12 @@ class DatabaseManagerImpl implements DatabaseManager {
   }
 
   @override
+  Future<ProjectObject> getProjectById(int projectId) async {
+    final projects = await Hive.openBox<ProjectObject>(projectsBox);
+    return projects.values.firstWhere((project) => project.key == projectId);
+  }
+
+  @override
   Future<List<TodoItemObject>> getAllTodosForProject(final int projectId) async {
     final projects = await Hive.openBox<ProjectObject>(projectsBox);
     return projects.get(projectId)?.todoList ?? [];
