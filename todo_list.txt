@@ -1,5 +1,7 @@
 - Animations
-- Due date local notification
+- Show due date on todo card
+- Group notifications
+- Android notification icon
 - Isar database maybe?
 - Firestore implementation (Mediator design pattern maybe)
 - Authentication

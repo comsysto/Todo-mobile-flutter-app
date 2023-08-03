@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:todo_app/features/todo/data/device/notification_service.dart';
 
 class SendNotificationUseCase {
@@ -10,7 +11,9 @@ class SendNotificationUseCase {
     final String todoTitle,
     final DateTime dueDate,
   ) {
+    final random = Random();
     _notificationService.showSchedueledNotification(
+      id: random.nextInt(0x7FFFFFFF),
       scheduledDate: dueDate,
       title: 'Protaly',
       body: todoTitle,

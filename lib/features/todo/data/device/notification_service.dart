@@ -90,8 +90,9 @@ class NotificationService {
       'protaly_notifications',
       channelDescription: 'Protlay notification channel',
       importance: Importance.max,
+      groupKey: 'kisic.filip.todo_app',
     );
-    const darwinDetails = DarwinNotificationDetails();
+    const darwinDetails = DarwinNotificationDetails(threadIdentifier: 'protaly_id');
     return const NotificationDetails(android: androidDetails, iOS: darwinDetails);
   }
 }
