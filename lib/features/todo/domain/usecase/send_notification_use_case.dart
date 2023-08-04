@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:todo_app/features/todo/data/device/notification_service.dart';
+import 'package:todo_app/core/notification_service.dart';
 
 class SendNotificationUseCase {
   final NotificationService _notificationService;

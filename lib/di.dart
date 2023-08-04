@@ -9,7 +9,7 @@ import 'package:todo_app/features/todo/data/converter/project_converter.dart';
 import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
 import 'package:todo_app/features/todo/data/database/database_manager.dart';
 import 'package:todo_app/features/todo/data/database/database_manager_impl.dart';
-import 'package:todo_app/features/todo/data/device/notification_service.dart';
+import 'package:todo_app/core/notification_service.dart';
 import 'package:todo_app/features/todo/data/repository/project_repository_impl.dart';
 import 'package:todo_app/features/todo/data/repository/todo_repository_impl.dart';
 import 'package:todo_app/features/todo/domain/repository/project_repository.dart';
