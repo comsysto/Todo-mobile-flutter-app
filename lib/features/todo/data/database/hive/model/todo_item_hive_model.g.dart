@@ -1,22 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todo_item_object.dart';
+part of 'todo_item_hive_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TodoItemObjectAdapter extends TypeAdapter<TodoItemObject> {
+class TodoItemHiveModelAdapter extends TypeAdapter<TodoItemHiveModel> {
   @override
   final int typeId = 1;
 
   @override
-  TodoItemObject read(BinaryReader reader) {
+  TodoItemHiveModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TodoItemObject(
+    return TodoItemHiveModel(
       title: fields[1] as String,
       dueDate: fields[2] as DateTime?,
       id: fields[0] as int?,
@@ -25,7 +25,7 @@ class TodoItemObjectAdapter extends TypeAdapter<TodoItemObject> {
   }
 
   @override
-  void write(BinaryWriter writer, TodoItemObject obj) {
+  void write(BinaryWriter writer, TodoItemHiveModel obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -44,7 +44,7 @@ class TodoItemObjectAdapter extends TypeAdapter<TodoItemObject> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TodoItemObjectAdapter &&
+      other is TodoItemHiveModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

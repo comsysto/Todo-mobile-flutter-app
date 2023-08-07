@@ -1,5 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:isar/isar.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/features/common/data/source_local/manager/shared_prefs_manager_impl.dart';
@@ -8,7 +9,7 @@ import 'package:todo_app/features/common/presentation/riverpod/app_theme_provide
 import 'package:todo_app/features/todo/data/converter/project_converter.dart';
 import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
 import 'package:todo_app/features/todo/data/database/database_manager.dart';
-import 'package:todo_app/features/todo/data/database/database_manager_impl.dart';
+import 'package:todo_app/features/todo/data/database/hive/hive_manager_impl.dart';
 import 'package:todo_app/core/notification_service.dart';
 import 'package:todo_app/features/todo/data/repository/project_repository_impl.dart';
 import 'package:todo_app/features/todo/data/repository/todo_repository_impl.dart';
@@ -30,6 +31,10 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
   (ref) => throw UnimplementedError(),
 );
 
+final isarDatasourceProvider = Provider<Isar>(
+  (ref) => throw UnimplementedError(),
+);
+
 final localNotificationProvider = Provider<FlutterLocalNotificationsPlugin>(
   (ref) => FlutterLocalNotificationsPlugin(),
 );
@@ -47,8 +52,13 @@ final notificationServiceProvider = Provider<NotificationService>(
 );
 
 /// ************ MANAGERS *************
-final databaseManagerProvider = Provider<DatabaseManager>(
-  (ref) => DatabaseManagerImpl(),
+final hiveManagerProvider = Provider<DatabaseManager>(
+  (ref) => HiveManagerImpl(
+    ref.watch(projectHiveModelToDbDtoConverter),
+    ref.watch(projectDbDtoToHiveModelConverter),
+    ref.watch(todoItemHiveModelToDbDtoConverter),
+    ref.watch(todoItemDbDtoToHiveModelConverter),
+  ),
 );
 
 final sharedPrefsManagerProvider = Provider<SharedPrefsManager>(
@@ -56,36 +66,52 @@ final sharedPrefsManagerProvider = Provider<SharedPrefsManager>(
 );
 
 /// ************ CONVERTERS *************
-final todoItemObjectToEntityConverter = Provider<TodoItemObjectToEntityConverter>(
-  (ref) => TodoItemObjectToEntityConverter(),
+final todoItemHiveModelToDbDtoConverter = Provider<TodoItemHiveModelToDbDtoConverter>(
+  (ref) => TodoItemHiveModelToDbDtoConverter(),
 );
 
-final todoItemEntityToObjectConverter = Provider<TodoItemEntityToObjectConverter>(
-  (ref) => TodoItemEntityToObjectConverter(),
+final todoItemDbDtoToHiveModelConverter = Provider<TodoItemDbDtoToHiveModelConverter>(
+  (ref) => TodoItemDbDtoToHiveModelConverter(),
 );
 
-final projectObjectToEntityConverter = Provider<ProjectObjectToEntityConverter>(
-  (ref) => ProjectObjectToEntityConverter(ref.watch(todoItemObjectToEntityConverter)),
+final todoItemDbDtoToEntityConverter = Provider<TodoItemDbDtoToEntityConverter>(
+  (ref) => TodoItemDbDtoToEntityConverter(),
 );
 
-final projectEntityToObjectConverter = Provider<ProjectEntityToObjectConverter>(
-  (ref) => ProjectEntityToObjectConverter(ref.watch(todoItemEntityToObjectConverter)),
+final todoItemEntityToDbDtoConverter = Provider<TodoItemEntityToDbDtoConverter>(
+  (ref) => TodoItemEntityToDbDtoConverter(),
+);
+
+final projectHiveModelToDbDtoConverter = Provider<ProjectHiveModelToDbDtoConverter>(
+  (ref) => ProjectHiveModelToDbDtoConverter(ref.watch(todoItemHiveModelToDbDtoConverter)),
+);
+
+final projectDbDtoToHiveModelConverter = Provider<ProjectDbDtoToHiveModelConverter>(
+  (ref) => ProjectDbDtoToHiveModelConverter(ref.watch(todoItemDbDtoToHiveModelConverter)),
+);
+
+final projectDbDtoToEntityConverter = Provider<ProjectDbDtoToEntityConverter>(
+  (ref) => ProjectDbDtoToEntityConverter(ref.watch(todoItemDbDtoToEntityConverter)),
+);
+
+final projectEntityToDbDtoConverter = Provider<ProjectEntityToDbDtoConverter>(
+  (ref) => ProjectEntityToDbDtoConverter(ref.watch(todoItemEntityToDbDtoConverter)),
 );
 
 /// ************ REPOSITORIES *************
 final projectRepositoryProvider = Provider<ProjectRepository>(
   (ref) => ProjectRepositoryImpl(
-    ref.watch(databaseManagerProvider),
-    ref.watch(projectObjectToEntityConverter),
-    ref.watch(projectEntityToObjectConverter),
+    ref.watch(hiveManagerProvider),
+    ref.watch(projectDbDtoToEntityConverter),
+    ref.watch(projectEntityToDbDtoConverter),
   ),
 );
 
 final todoRepositoryProvider = Provider<TodoRepository>(
   (ref) => TodoRepositoryImpl(
-    ref.watch(databaseManagerProvider),
-    ref.watch(todoItemObjectToEntityConverter),
-    ref.watch(todoItemEntityToObjectConverter),
+    ref.watch(hiveManagerProvider),
+    ref.watch(todoItemDbDtoToEntityConverter),
+    ref.watch(todoItemEntityToDbDtoConverter),
   ),
 );
 

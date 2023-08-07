@@ -4,14 +4,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/core/route_generator.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/style/theme.dart';
-import 'package:todo_app/features/todo/data/database/hive_datasource.dart';
+import 'package:todo_app/features/todo/data/database/hive/hive_datasource.dart';
+import 'package:todo_app/features/todo/data/database/isar/isar_datasource.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final instance = await SharedPreferences.getInstance();
+  final sharedPrefsInstance = await SharedPreferences.getInstance();
+  final isarInstance = await initIsar();
   await initHive();
   runApp(ProviderScope(
-    overrides: [sharedPreferencesProvider.overrideWithValue(instance)],
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(sharedPrefsInstance),
+      isarDatasourceProvider.overrideWithValue(isarInstance),
+    ],
     child: const MainApp(),
   ));
 }

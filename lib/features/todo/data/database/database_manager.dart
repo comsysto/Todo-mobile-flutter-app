@@ -1,13 +1,13 @@
-import 'package:todo_app/features/todo/data/database/model/project_object.dart';
-import 'package:todo_app/features/todo/data/database/model/todo_item_object.dart';
+import 'package:todo_app/features/todo/data/database/model/project_db_dto.dart';
+import 'package:todo_app/features/todo/data/database/model/todo_item_db_dto.dart';
 
 abstract class DatabaseManager {
-  Future<List<ProjectObject>> getAllProjects();
-  Future<ProjectObject> getProjectById(int projectId);
-  Future<void> insertNewProject(ProjectObject project);
+  Future<List<ProjectDbDto>> getAllProjects();
+  Future<ProjectDbDto> getProjectById(int projectId);
+  Future<void> insertNewProject(ProjectDbDto project);
   Future<void> removeProjectById(int id);
 
-  Future<List<TodoItemObject>> getAllTodosForProject(int projectId);
-  Future<void> insertNewTodo(int projectId, TodoItemObject todo);
-  Future<void> completeTodo(int projectId, TodoItemObject todo);
+  Future<List<TodoItemDbDto>> getAllTodosForProject(int projectId);
+  Future<void> insertNewTodo(int projectId, TodoItemDbDto todo);
+  Future<void> completeTodo(int projectId, TodoItemDbDto todo);
 }

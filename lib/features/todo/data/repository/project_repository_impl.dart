@@ -5,30 +5,30 @@ import 'package:todo_app/features/todo/domain/repository/project_repository.dart
 
 class ProjectRepositoryImpl implements ProjectRepository {
   final DatabaseManager _databaseManager;
-  final ProjectObjectToEntityConverter _objectToEntityConverter;
-  final ProjectEntityToObjectConverter _entityToObjectConverter;
+  final ProjectDbDtoToEntityConverter _dbDtoToEntityConverter;
+  final ProjectEntityToDbDtoConverter _entityToDbDtoConverter;
 
   const ProjectRepositoryImpl(
     this._databaseManager,
-    this._objectToEntityConverter,
-    this._entityToObjectConverter,
+    this._dbDtoToEntityConverter,
+    this._entityToDbDtoConverter,
   );
 
   @override
   Future<List<Project>> getAllProjects() async {
     final projectObjects = await _databaseManager.getAllProjects();
-    return projectObjects.map((object) => _objectToEntityConverter.convert(object)).toList();
+    return projectObjects.map((object) => _dbDtoToEntityConverter.convert(object)).toList();
   }
 
   @override
   Future<Project> getProjectById(int projectId) async {
     final projectObject = await _databaseManager.getProjectById(projectId);
-    return _objectToEntityConverter.convert(projectObject);
+    return _dbDtoToEntityConverter.convert(projectObject);
   }
 
   @override
   Future<void> createNewProject(final Project project) async {
-    final projectObject = _entityToObjectConverter.convert(project);
+    final projectObject = _entityToDbDtoConverter.convert(project);
     await _databaseManager.insertNewProject(projectObject);
   }
 

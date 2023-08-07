@@ -5,8 +5,8 @@ import 'package:todo_app/features/todo/domain/repository/todo_repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final DatabaseManager _databaseManager;
-  final TodoItemObjectToEntityConverter _objectToEntityConverter;
-  final TodoItemEntityToObjectConverter _entityToObjectConverter;
+  final TodoItemDbDtoToEntityConverter _objectToEntityConverter;
+  final TodoItemEntityToDbDtoConverter _entityToObjectConverter;
 
   const TodoRepositoryImpl(
     this._databaseManager,

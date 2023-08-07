@@ -1,29 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'project_object.dart';
+part of 'project_hive_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ProjectObjectAdapter extends TypeAdapter<ProjectObject> {
+class ProjectHiveModelAdapter extends TypeAdapter<ProjectHiveModel> {
   @override
   final int typeId = 0;
 
   @override
-  ProjectObject read(BinaryReader reader) {
+  ProjectHiveModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ProjectObject(
+    return ProjectHiveModel(
       title: fields[0] as String,
-      todoList: (fields[1] as List?)?.cast<TodoItemObject>(),
+      todoList: (fields[1] as List).cast<TodoItemHiveModel>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, ProjectObject obj) {
+  void write(BinaryWriter writer, ProjectHiveModel obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -38,7 +38,7 @@ class ProjectObjectAdapter extends TypeAdapter<ProjectObject> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ProjectObjectAdapter &&
+      other is ProjectHiveModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

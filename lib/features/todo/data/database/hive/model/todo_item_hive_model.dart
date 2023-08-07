@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'todo_item_object.g.dart';
+part 'todo_item_hive_model.g.dart';
 
 @HiveType(typeId: 1)
-class TodoItemObject extends HiveObject {
+class TodoItemHiveModel extends HiveObject {
   @HiveField(0)
   int? id;
 
@@ -16,7 +16,7 @@ class TodoItemObject extends HiveObject {
   @HiveField(3)
   bool isDone;
 
-  TodoItemObject({required this.title, this.dueDate, this.id, this.isDone = false});
+  TodoItemHiveModel({required this.title, this.dueDate, this.id, this.isDone = false});
 
   @override
   String toString() => '$id, $title';
@@ -29,7 +29,7 @@ class TodoItemObject extends HiveObject {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is TodoItemObject && other.id == id && other.title == title;
+    return other is TodoItemHiveModel && other.id == id && other.title == title;
   }
 
   @override
