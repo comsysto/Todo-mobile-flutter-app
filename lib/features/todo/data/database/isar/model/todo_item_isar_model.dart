@@ -4,9 +4,10 @@ part 'todo_item_isar_model.g.dart';
 
 @embedded
 class TodoItemIsarModel {
+  final int id;
   final String? title;
   final DateTime? dueDate;
-  final bool? isDone;
+  bool? isDone;
 
-  const TodoItemIsarModel({this.title, this.dueDate, this.isDone});
+  TodoItemIsarModel({required this.id, this.title, this.dueDate, this.isDone = false});
 }

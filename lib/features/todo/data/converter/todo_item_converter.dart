@@ -1,9 +1,10 @@
 import 'package:todo_app/features/todo/data/converter/converter.dart';
 import 'package:todo_app/features/todo/data/database/hive/model/todo_item_hive_model.dart';
+import 'package:todo_app/features/todo/data/database/isar/model/todo_item_isar_model.dart';
 import 'package:todo_app/features/todo/data/database/model/todo_item_db_dto.dart';
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 
-/// ************ HIVE TO DTO *************
+/// ************ HIVE - DTO *************
 class TodoItemHiveModelToDbDtoConverter implements Converter<TodoItemHiveModel, TodoItemDbDto> {
   @override
   TodoItemDbDto convert(final TodoItemHiveModel model) => TodoItemDbDto(
@@ -17,16 +18,39 @@ class TodoItemHiveModelToDbDtoConverter implements Converter<TodoItemHiveModel, 
 class TodoItemDbDtoToHiveModelConverter implements Converter<TodoItemDbDto, TodoItemHiveModel> {
   @override
   TodoItemHiveModel convert(final TodoItemDbDto dto) => TodoItemHiveModel(
-        id: dto.id,
+        id: dto.id!,
         title: dto.title,
         dueDate: dto.dueDate,
         isDone: dto.isDone,
       );
 }
 
-/// ************ ISAR TO DTO *************
+/// ************ ISAR - DTO *************
+class TodoItemIsarModelToDbDtoConverter implements Converter<TodoItemIsarModel, TodoItemDbDto> {
+  @override
+  TodoItemDbDto convert(final TodoItemIsarModel model) {
+    return TodoItemDbDto(
+      id: model.id,
+      title: model.title!,
+      dueDate: model.dueDate,
+      isDone: model.isDone ?? false,
+    );
+  }
+}
 
-/// ************ DTO TO ENTITY *************
+class TodoItemDbDtoToIsarModelConverter implements Converter<TodoItemDbDto, TodoItemIsarModel> {
+  @override
+  TodoItemIsarModel convert(final TodoItemDbDto dto) {
+    return TodoItemIsarModel(
+      id: dto.id!,
+      title: dto.title,
+      dueDate: dto.dueDate,
+      isDone: dto.isDone,
+    );
+  }
+}
+
+/// ************ DTO - ENTITY *************
 class TodoItemDbDtoToEntityConverter implements Converter<TodoItemDbDto, TodoItem> {
   @override
   TodoItem convert(final TodoItemDbDto dto) => TodoItem(

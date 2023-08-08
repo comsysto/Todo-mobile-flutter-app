@@ -16,7 +16,7 @@ class TodoItemHiveModel extends HiveObject {
   @HiveField(3)
   bool isDone;
 
-  TodoItemHiveModel({required this.title, this.dueDate, this.id, this.isDone = false});
+  TodoItemHiveModel({required this.id, required this.title, this.dueDate, this.isDone = false});
 
   @override
   String toString() => '$id, $title';

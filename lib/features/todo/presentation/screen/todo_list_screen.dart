@@ -53,10 +53,12 @@ class TodoListScreen extends ConsumerWidget {
                           _showDeleteConfirmationDialog(context, ref, selectedProject);
                         },
                       ),
-                error: (error, _) => Center(
-                  child: Text(
-                    'There was an error...',
-                    style: Theme.of(context).textTheme.titleMedium,
+                error: (error, _) => Expanded(
+                  child: Center(
+                    child: Text(
+                      'There was an error...',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                 ),
                 loading: () => const CircularProgressIndicator.adaptive(),

@@ -4,10 +4,10 @@ import 'package:todo_app/features/todo/data/database/isar/model/todo_item_isar_m
 part 'project_isar_model.g.dart';
 
 @collection
-class ProjectIsarModel {  
-  final Id id = Isar.autoIncrement;
-  final String title;
-  final List<TodoItemIsarModel> todoItems;
+class ProjectIsarModel {
+  int id;
+  String title;
+  List<TodoItemIsarModel> todoList;
 
-  const ProjectIsarModel({required this.title, this.todoItems = const []});
+  ProjectIsarModel({required this.id, required this.title, this.todoList = const []});
 }

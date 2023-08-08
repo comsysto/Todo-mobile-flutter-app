@@ -11,6 +11,7 @@ import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
 import 'package:todo_app/features/todo/data/database/database_manager.dart';
 import 'package:todo_app/features/todo/data/database/hive/hive_manager_impl.dart';
 import 'package:todo_app/core/notification_service.dart';
+import 'package:todo_app/features/todo/data/database/isar/isar_manager_impl.dart';
 import 'package:todo_app/features/todo/data/repository/project_repository_impl.dart';
 import 'package:todo_app/features/todo/data/repository/todo_repository_impl.dart';
 import 'package:todo_app/features/todo/domain/repository/project_repository.dart';
@@ -61,6 +62,16 @@ final hiveManagerProvider = Provider<DatabaseManager>(
   ),
 );
 
+final isarManagerProvider = Provider<DatabaseManager>(
+  (ref) => IsarManagerImpl(
+    ref.watch(isarDatasourceProvider),
+    ref.watch(projectIsarModelToDbDtoConverter),
+    ref.watch(projectDbDtoToIsarModelConverter),
+    ref.watch(todoItemIsarModelToDbDtoConverter),
+    ref.watch(todoItemDbDtoToIsarModelConverter),
+  ),
+);
+
 final sharedPrefsManagerProvider = Provider<SharedPrefsManager>(
   (ref) => SharedPrefsManagerImpl(ref.watch(sharedPreferencesProvider)),
 );
@@ -72,6 +83,14 @@ final todoItemHiveModelToDbDtoConverter = Provider<TodoItemHiveModelToDbDtoConve
 
 final todoItemDbDtoToHiveModelConverter = Provider<TodoItemDbDtoToHiveModelConverter>(
   (ref) => TodoItemDbDtoToHiveModelConverter(),
+);
+
+final todoItemIsarModelToDbDtoConverter = Provider<TodoItemIsarModelToDbDtoConverter>(
+  (ref) => TodoItemIsarModelToDbDtoConverter(),
+);
+
+final todoItemDbDtoToIsarModelConverter = Provider<TodoItemDbDtoToIsarModelConverter>(
+  (ref) => TodoItemDbDtoToIsarModelConverter(),
 );
 
 final todoItemDbDtoToEntityConverter = Provider<TodoItemDbDtoToEntityConverter>(
@@ -88,6 +107,14 @@ final projectHiveModelToDbDtoConverter = Provider<ProjectHiveModelToDbDtoConvert
 
 final projectDbDtoToHiveModelConverter = Provider<ProjectDbDtoToHiveModelConverter>(
   (ref) => ProjectDbDtoToHiveModelConverter(ref.watch(todoItemDbDtoToHiveModelConverter)),
+);
+
+final projectIsarModelToDbDtoConverter = Provider<ProjectIsarModelToDbDtoConverter>(
+  (ref) => ProjectIsarModelToDbDtoConverter(ref.watch(todoItemIsarModelToDbDtoConverter)),
+);
+
+final projectDbDtoToIsarModelConverter = Provider<ProjectDbDtoToIsarModelConverter>(
+  (ref) => ProjectDbDtoToIsarModelConverter(ref.watch(todoItemDbDtoToIsarModelConverter)),
 );
 
 final projectDbDtoToEntityConverter = Provider<ProjectDbDtoToEntityConverter>(

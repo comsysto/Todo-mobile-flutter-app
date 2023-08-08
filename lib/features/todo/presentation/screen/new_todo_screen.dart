@@ -35,87 +35,95 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(child: Text('New task', style: Theme.of(context).textTheme.titleSmall)),
-                const SizedBox(height: 50),
-                Text('New challange to\ncomplete', style: Theme.of(context).textTheme.titleLarge),
-                const SizedBox(height: 30),
-                CustomTextField(
-                  controller: titleController,
-                  labelText: 'Title',
-                  validator: (value) => _validateTitle(value),
-                ),
-                const SizedBox(height: 15),
-                DateTimeTextField(
-                  controller: dateController,
-                  onTap: () => _showDateTimePicker(context, selectedDateTime, dateController),
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ProjectPicker(
-                        projectList: projectListState?.value ?? <Project>[],
-                        selectedProject: selectedProject.value,
-                        onChanged: (project) => selectedProject.value = project,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        HapticFeedback.mediumImpact();
-                        _openNewProjectModalSheet(context);
-                      },
-                      child: Row(
-                        children: [
-                          Icon(Icons.add, color: Theme.of(context).colorScheme.secondary),
-                          Text('New', style: Theme.of(context).textTheme.displaySmall),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                      child: TextButton(
-                        onPressed: () => _popToTaskScreen(context),
-                        child: Text(
-                          'Cancel',
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(child: Text('New task', style: Theme.of(context).textTheme.titleSmall)),
+                  const SizedBox(height: 50),
+                  Text('New challange to\ncomplete', style: Theme.of(context).textTheme.titleLarge),
+                  const SizedBox(height: 30),
+                  CustomTextField(
+                    controller: titleController,
+                    labelText: 'Title',
+                    validator: (value) => _validateTitle(value),
+                  ),
+                  const SizedBox(height: 15),
+                  DateTimeTextField(
+                    controller: dateController,
+                    onTap: () => _showDateTimePicker(context, selectedDateTime, dateController),
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ProjectPicker(
+                          projectList: projectListState?.value ?? <Project>[],
+                          selectedProject: selectedProject.value,
+                          onChanged: (project) => selectedProject.value = project,
                         ),
                       ),
-                    ),
-                    CustomButton(
-                      text: 'Create',
-                      onPressed: () {
-                        HapticFeedback.mediumImpact();
-                        _createTask(
-                          context,
-                          ref,
-                          titleController.text,
-                          selectedDateTime.value,
-                          selectedProject.value,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ],
+                      TextButton(
+                        onPressed: () {
+                          HapticFeedback.mediumImpact();
+                          _openNewProjectModalSheet(context);
+                        },
+                        child: Row(
+                          children: [
+                            Icon(Icons.add, color: Theme.of(context).colorScheme.secondary),
+                            Text('New', style: Theme.of(context).textTheme.displaySmall),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                        child: TextButton(
+                          onPressed: () => _popToTaskScreen(context),
+                          child: Text(
+                            'Cancel',
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
+                          ),
+                        ),
+                      ),
+                      CustomButton(
+                        text: 'Create',
+                        onPressed: () {
+                          HapticFeedback.mediumImpact();
+                          _createTask(
+                            context,
+                            ref,
+                            titleController.text,
+                            selectedDateTime.value,
+                            selectedProject.value,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -167,7 +175,7 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
           .createNewTodo(project.id!, title, dueDate ?? DateTime.now());
       if (context.mounted) {
         _popToTaskScreen(context);
-        ref.read(projectProvider).getAllProjects();
+        await ref.read(projectProvider).getAllProjects();
       }
     }
   }

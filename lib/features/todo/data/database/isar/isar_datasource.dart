@@ -4,5 +4,5 @@ import 'package:todo_app/features/todo/data/database/isar/model/project_isar_mod
 
 Future<Isar> initIsar() async {
   final dir = await getApplicationDocumentsDirectory();
-  return await Isar.open([ProjectIsarModelSchema], directory: dir.path);
+  return Isar.open(schemas: [ProjectIsarModelSchema], directory: dir.path);
 }

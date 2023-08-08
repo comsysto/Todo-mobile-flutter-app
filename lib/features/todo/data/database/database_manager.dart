@@ -5,7 +5,7 @@ abstract class DatabaseManager {
   Future<List<ProjectDbDto>> getAllProjects();
   Future<ProjectDbDto> getProjectById(int projectId);
   Future<void> insertNewProject(ProjectDbDto project);
-  Future<void> removeProjectById(int id);
+  Future<void> removeProjectById(int projectId);
 
   Future<List<TodoItemDbDto>> getAllTodosForProject(int projectId);
   Future<void> insertNewTodo(int projectId, TodoItemDbDto todo);

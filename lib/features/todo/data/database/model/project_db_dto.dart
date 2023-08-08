@@ -6,4 +6,7 @@ class ProjectDbDto {
   final List<TodoItemDbDto> todoList;
 
   const ProjectDbDto({this.id, required this.title, this.todoList = const []});
+
+  @override
+  String toString() => '$id, $title, $todoList';
 }

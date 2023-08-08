@@ -3,266 +3,312 @@
 part of 'project_isar_model.dart';
 
 // **************************************************************************
-// IsarCollectionGenerator
+// _IsarCollectionGenerator
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
 
 extension GetProjectIsarModelCollection on Isar {
-  IsarCollection<ProjectIsarModel> get projectIsarModels => this.collection();
+  IsarCollection<int, ProjectIsarModel> get projectIsarModels =>
+      this.collection();
 }
 
-const ProjectIsarModelSchema = CollectionSchema(
-  name: r'ProjectIsarModel',
-  id: -1254447405627766126,
-  properties: {
-    r'title': PropertySchema(
-      id: 0,
-      name: r'title',
-      type: IsarType.string,
-    ),
-    r'todoItems': PropertySchema(
-      id: 1,
-      name: r'todoItems',
-      type: IsarType.objectList,
-      target: r'TodoItemIsarModel',
-    )
-  },
-  estimateSize: _projectIsarModelEstimateSize,
-  serialize: _projectIsarModelSerialize,
-  deserialize: _projectIsarModelDeserialize,
-  deserializeProp: _projectIsarModelDeserializeProp,
-  idName: r'id',
-  indexes: {},
-  links: {},
-  embeddedSchemas: {r'TodoItemIsarModel': TodoItemIsarModelSchema},
-  getId: _projectIsarModelGetId,
-  getLinks: _projectIsarModelGetLinks,
-  attach: _projectIsarModelAttach,
-  version: '3.1.0+1',
+const ProjectIsarModelSchema = IsarCollectionSchema(
+  schema:
+      '{"name":"ProjectIsarModel","idName":"id","properties":[{"name":"title","type":"String"},{"name":"todoList","type":"ObjectList","target":"TodoItemIsarModel"}]}',
+  converter: IsarObjectConverter<int, ProjectIsarModel>(
+    serialize: serializeProjectIsarModel,
+    deserialize: deserializeProjectIsarModel,
+    deserializeProperty: deserializeProjectIsarModelProp,
+  ),
+  embeddedSchemas: [TodoItemIsarModelSchema],
+  //hash: (664475975481442765 * 31 + todoItemIsarModelSchemaHash),
 );
 
-int _projectIsarModelEstimateSize(
-  ProjectIsarModel object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
-  bytesCount += 3 + object.title.length * 3;
-  bytesCount += 3 + object.todoItems.length * 3;
+@isarProtected
+int serializeProjectIsarModel(IsarWriter writer, ProjectIsarModel object) {
+  IsarCore.writeString(writer, 1, object.title);
   {
-    final offsets = allOffsets[TodoItemIsarModel]!;
-    for (var i = 0; i < object.todoItems.length; i++) {
-      final value = object.todoItems[i];
-      bytesCount +=
-          TodoItemIsarModelSchema.estimateSize(value, offsets, allOffsets);
+    final list = object.todoList;
+    final listWriter = IsarCore.beginList(writer, 2, list.length);
+    for (var i = 0; i < list.length; i++) {
+      {
+        final value = list[i];
+        final objectWriter = IsarCore.beginObject(listWriter, i);
+        serializeTodoItemIsarModel(objectWriter, value);
+        IsarCore.endObject(listWriter, objectWriter);
+      }
+    }
+    IsarCore.endList(writer, listWriter);
+  }
+  return object.id;
+}
+
+@isarProtected
+ProjectIsarModel deserializeProjectIsarModel(IsarReader reader) {
+  final int _id;
+  _id = IsarCore.readId(reader);
+  final String _title;
+  _title = IsarCore.readString(reader, 1) ?? '';
+  final List<TodoItemIsarModel> _todoList;
+  {
+    final length = IsarCore.readList(reader, 2, IsarCore.readerPtrPtr);
+    {
+      final reader = IsarCore.readerPtr;
+      if (reader.isNull) {
+        _todoList = const [];
+      } else {
+        final list = List<TodoItemIsarModel>.filled(
+            length,
+            TodoItemIsarModel(
+              id: -9223372036854775808,
+            ),
+            growable: true);
+        for (var i = 0; i < length; i++) {
+          {
+            final objectReader = IsarCore.readObject(reader, i);
+            if (objectReader.isNull) {
+              list[i] = TodoItemIsarModel(
+                id: -9223372036854775808,
+              );
+            } else {
+              final embedded = deserializeTodoItemIsarModel(objectReader);
+              IsarCore.freeReader(objectReader);
+              list[i] = embedded;
+            }
+          }
+        }
+        IsarCore.freeReader(reader);
+        _todoList = list;
+      }
     }
   }
-  return bytesCount;
-}
-
-void _projectIsarModelSerialize(
-  ProjectIsarModel object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeString(offsets[0], object.title);
-  writer.writeObjectList<TodoItemIsarModel>(
-    offsets[1],
-    allOffsets,
-    TodoItemIsarModelSchema.serialize,
-    object.todoItems,
-  );
-}
-
-ProjectIsarModel _projectIsarModelDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
   final object = ProjectIsarModel(
-    title: reader.readString(offsets[0]),
-    todoItems: reader.readObjectList<TodoItemIsarModel>(
-          offsets[1],
-          TodoItemIsarModelSchema.deserialize,
-          allOffsets,
-          TodoItemIsarModel(),
-        ) ??
-        const [],
+    id: _id,
+    title: _title,
+    todoList: _todoList,
   );
   return object;
 }
 
-P _projectIsarModelDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
+@isarProtected
+dynamic deserializeProjectIsarModelProp(IsarReader reader, int property) {
+  switch (property) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return IsarCore.readId(reader);
     case 1:
-      return (reader.readObjectList<TodoItemIsarModel>(
-            offset,
-            TodoItemIsarModelSchema.deserialize,
-            allOffsets,
-            TodoItemIsarModel(),
-          ) ??
-          const []) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
-  }
-}
-
-Id _projectIsarModelGetId(ProjectIsarModel object) {
-  return object.id;
-}
-
-List<IsarLinkBase<dynamic>> _projectIsarModelGetLinks(ProjectIsarModel object) {
-  return [];
-}
-
-void _projectIsarModelAttach(
-    IsarCollection<dynamic> col, Id id, ProjectIsarModel object) {}
-
-extension ProjectIsarModelQueryWhereSort
-    on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QWhere> {
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
-  }
-}
-
-extension ProjectIsarModelQueryWhere
-    on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QWhereClause> {
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterWhereClause> idEqualTo(
-      Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterWhereClause>
-      idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
+      return IsarCore.readString(reader, 1) ?? '';
+    case 2:
+      {
+        final length = IsarCore.readList(reader, 2, IsarCore.readerPtrPtr);
+        {
+          final reader = IsarCore.readerPtr;
+          if (reader.isNull) {
+            return const [];
+          } else {
+            final list = List<TodoItemIsarModel>.filled(
+                length,
+                TodoItemIsarModel(
+                  id: -9223372036854775808,
+                ),
+                growable: true);
+            for (var i = 0; i < length; i++) {
+              {
+                final objectReader = IsarCore.readObject(reader, i);
+                if (objectReader.isNull) {
+                  list[i] = TodoItemIsarModel(
+                    id: -9223372036854775808,
+                  );
+                } else {
+                  final embedded = deserializeTodoItemIsarModel(objectReader);
+                  IsarCore.freeReader(objectReader);
+                  list[i] = embedded;
+                }
+              }
+            }
+            IsarCore.freeReader(reader);
+            return list;
+          }
+        }
       }
-    });
+    default:
+      throw ArgumentError('Unknown property: $property');
   }
+}
 
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterWhereClause>
-      idGreaterThan(Id id, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
+sealed class _ProjectIsarModelUpdate {
+  bool call({
+    required int id,
+    String? title,
+  });
+}
 
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterWhereClause>
-      idLessThan(Id id, {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+class _ProjectIsarModelUpdateImpl implements _ProjectIsarModelUpdate {
+  const _ProjectIsarModelUpdateImpl(this.collection);
 
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
+  final IsarCollection<int, ProjectIsarModel> collection;
+
+  @override
+  bool call({
+    required int id,
+    Object? title = ignore,
   }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+    return collection.updateProperties([
+          id
+        ], {
+          if (title != ignore) 1: title as String?,
+        }) >
+        0;
+  }
+}
+
+sealed class _ProjectIsarModelUpdateAll {
+  int call({
+    required List<int> id,
+    String? title,
+  });
+}
+
+class _ProjectIsarModelUpdateAllImpl implements _ProjectIsarModelUpdateAll {
+  const _ProjectIsarModelUpdateAllImpl(this.collection);
+
+  final IsarCollection<int, ProjectIsarModel> collection;
+
+  @override
+  int call({
+    required List<int> id,
+    Object? title = ignore,
+  }) {
+    return collection.updateProperties(id, {
+      if (title != ignore) 1: title as String?,
     });
   }
+}
+
+extension ProjectIsarModelUpdate on IsarCollection<int, ProjectIsarModel> {
+  _ProjectIsarModelUpdate get update => _ProjectIsarModelUpdateImpl(this);
+
+  _ProjectIsarModelUpdateAll get updateAll =>
+      _ProjectIsarModelUpdateAllImpl(this);
+}
+
+sealed class _ProjectIsarModelQueryUpdate {
+  int call({
+    String? title,
+  });
+}
+
+class _ProjectIsarModelQueryUpdateImpl implements _ProjectIsarModelQueryUpdate {
+  const _ProjectIsarModelQueryUpdateImpl(this.query, {this.limit});
+
+  final IsarQuery<ProjectIsarModel> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? title = ignore,
+  }) {
+    return query.updateProperties(limit: limit, {
+      if (title != ignore) 1: title as String?,
+    });
+  }
+}
+
+extension ProjectIsarModelQueryUpdate on IsarQuery<ProjectIsarModel> {
+  _ProjectIsarModelQueryUpdate get updateFirst =>
+      _ProjectIsarModelQueryUpdateImpl(this, limit: 1);
+
+  _ProjectIsarModelQueryUpdate get updateAll =>
+      _ProjectIsarModelQueryUpdateImpl(this);
 }
 
 extension ProjectIsarModelQueryFilter
     on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QFilterCondition> {
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      idEqualTo(Id value) {
+      idEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 0,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 0,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
+      idGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 0,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
+      idLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    int lower,
+    int upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 0,
+          lower: lower,
+          upper: upper,
+        ),
+      );
     });
   }
 
@@ -272,43 +318,77 @@ extension ProjectIsarModelQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       titleGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
+      titleGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       titleLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
+      titleLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -316,19 +396,17 @@ extension ProjectIsarModelQueryFilter
       titleBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'title',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -338,11 +416,13 @@ extension ProjectIsarModelQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -352,171 +432,117 @@ extension ProjectIsarModelQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       titleContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'title',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       titleMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'title',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       titleIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'title',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
       titleIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'title',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      todoItemsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'todoItems',
-        length,
-        true,
-        length,
-        true,
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
       );
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      todoItemsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'todoItems',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
+      todoListIsEmpty() {
+    return not().todoListIsNotEmpty();
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      todoItemsIsNotEmpty() {
+      todoListIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'todoItems',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      todoItemsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'todoItems',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      todoItemsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'todoItems',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      todoItemsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'todoItems',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
+      return query.addFilterCondition(
+        const GreaterOrEqualCondition(property: 2, value: null),
       );
     });
   }
 }
 
 extension ProjectIsarModelQueryObject
-    on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QFilterCondition> {
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterFilterCondition>
-      todoItemsElement(FilterQuery<TodoItemIsarModel> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.object(q, r'todoItems');
-    });
-  }
-}
-
-extension ProjectIsarModelQueryLinks
     on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QFilterCondition> {}
 
 extension ProjectIsarModelQuerySortBy
     on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QSortBy> {
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy> sortByTitle() {
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy> sortById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy>
-      sortByTitleDesc() {
+      sortByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy> sortByTitle(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy>
+      sortByTitleDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
     });
   }
 }
@@ -525,59 +551,105 @@ extension ProjectIsarModelQuerySortThenBy
     on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QSortThenBy> {
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy>
       thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy> thenByTitle() {
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy> thenByTitle(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.asc);
+      return query.addSortBy(1, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterSortBy>
-      thenByTitleDesc() {
+      thenByTitleDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'title', Sort.desc);
+      return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 }
 
 extension ProjectIsarModelQueryWhereDistinct
     on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QDistinct> {
-  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QDistinct> distinctByTitle(
-      {bool caseSensitive = true}) {
+  QueryBuilder<ProjectIsarModel, ProjectIsarModel, QAfterDistinct>
+      distinctByTitle({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'title', caseSensitive: caseSensitive);
+      return query.addDistinctBy(1, caseSensitive: caseSensitive);
     });
   }
 }
 
-extension ProjectIsarModelQueryProperty
-    on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QQueryProperty> {
-  QueryBuilder<ProjectIsarModel, int, QQueryOperations> idProperty() {
+extension ProjectIsarModelQueryProperty1
+    on QueryBuilder<ProjectIsarModel, ProjectIsarModel, QProperty> {
+  QueryBuilder<ProjectIsarModel, int, QAfterProperty> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addProperty(0);
     });
   }
 
-  QueryBuilder<ProjectIsarModel, String, QQueryOperations> titleProperty() {
+  QueryBuilder<ProjectIsarModel, String, QAfterProperty> titleProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'title');
+      return query.addProperty(1);
     });
   }
 
-  QueryBuilder<ProjectIsarModel, List<TodoItemIsarModel>, QQueryOperations>
-      todoItemsProperty() {
+  QueryBuilder<ProjectIsarModel, List<TodoItemIsarModel>, QAfterProperty>
+      todoListProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'todoItems');
+      return query.addProperty(2);
+    });
+  }
+}
+
+extension ProjectIsarModelQueryProperty2<R>
+    on QueryBuilder<ProjectIsarModel, R, QAfterProperty> {
+  QueryBuilder<ProjectIsarModel, (R, int), QAfterProperty> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, (R, String), QAfterProperty> titleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, (R, List<TodoItemIsarModel>), QAfterProperty>
+      todoListProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+}
+
+extension ProjectIsarModelQueryProperty3<R1, R2>
+    on QueryBuilder<ProjectIsarModel, (R1, R2), QAfterProperty> {
+  QueryBuilder<ProjectIsarModel, (R1, R2, int), QOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, (R1, R2, String), QOperations>
+      titleProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<ProjectIsarModel, (R1, R2, List<TodoItemIsarModel>), QOperations>
+      todoListProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
     });
   }
 }

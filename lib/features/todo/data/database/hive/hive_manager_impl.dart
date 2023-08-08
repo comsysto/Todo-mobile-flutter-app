@@ -21,13 +21,12 @@ class HiveManagerImpl implements DatabaseManager {
   );
 
   @override
-  Future<List<ProjectDbDto>> getAllProjects() async {
-    final projects = await Hive.openBox<ProjectHiveModel>(projectsBox);
-    return projects.values
-        .toList()
-        .map((model) => _projectHiveModelToDbDtoConverter.convert(model))
-        .toList();
-  }
+  Future<List<ProjectDbDto>> getAllProjects() async =>
+      (await Hive.openBox<ProjectHiveModel>(projectsBox))
+          .values
+          .toList()
+          .map((model) => _projectHiveModelToDbDtoConverter.convert(model))
+          .toList();
 
   @override
   Future<ProjectDbDto> getProjectById(final int projectId) async {
