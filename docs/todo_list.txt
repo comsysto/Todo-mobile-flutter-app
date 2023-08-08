@@ -1,9 +1,8 @@
+- Localization
 - Dart documentation for some interfaces
 - Animations
 - Show due date on todo card
 - Cancel notification if task done or project deleted
 - Android group notifications
-- Isar database maybe?
 - Firestore implementation (Mediator design pattern maybe)
 - Authentication
-- Localization
