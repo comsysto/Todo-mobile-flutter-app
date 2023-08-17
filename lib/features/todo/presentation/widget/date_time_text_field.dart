@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DateTimeTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -24,7 +25,7 @@ class DateTimeTextField extends StatelessWidget {
           suffixIcon: const Icon(Icons.calendar_month_rounded),
           suffixIconColor: Theme.of(context).iconTheme.color,
           label: Text(
-            'Due date',
+            AppLocalizations.of(context)!.dueDate,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).iconTheme.color,
                 ),

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/features/common/data/source_local/manager/shared_prefs_manager_impl.dart';
 import 'package:todo_app/features/common/domain/manager/shared_prefs_manager.dart';
 import 'package:todo_app/features/common/presentation/riverpod/app_theme_provider.dart';
+import 'package:todo_app/features/common/presentation/riverpod/locale_provider.dart';
 import 'package:todo_app/features/todo/data/converter/project_converter.dart';
 import 'package:todo_app/features/todo/data/converter/todo_item_converter.dart';
 import 'package:todo_app/features/todo/data/database/database_manager.dart';
@@ -197,4 +198,8 @@ final todoProvider = ChangeNotifierProvider.family.autoDispose<TodoProvider, int
 
 final appThemeProvider = ChangeNotifierProvider.autoDispose<AppThemeProvider>(
   (ref) => AppThemeProvider(ref.watch(sharedPrefsManagerProvider)),
+);
+
+final localeProvider = ChangeNotifierProvider.autoDispose<LocaleProvider>(
+  (ref) => LocaleProvider(),
 );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/di.dart';
@@ -38,17 +39,20 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text('New project', style: Theme.of(context).textTheme.titleLarge),
+                  Text(
+                    AppLocalizations.of(context)!.newProject,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                   const SizedBox(height: 20),
                   CustomTextField(
                     controller: titleController,
-                    labelText: 'Title',
+                    labelText: AppLocalizations.of(context)!.title,
                     validator: (value) => _validateTitle(value),
                   ),
                   const SizedBox(height: 15),
                   CustomTextField(
                     controller: descriptionController,
-                    labelText: 'Short description',
+                    labelText: AppLocalizations.of(context)!.shortDescription,
                   ),
                   const Spacer(),
                   Row(
@@ -59,7 +63,7 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
                         child: TextButton(
                           onPressed: () => Navigator.of(context).pop(),
                           child: Text(
-                            'Cancel',
+                            AppLocalizations.of(context)!.cancel,
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Theme.of(context).colorScheme.error,
                                 ),
@@ -67,7 +71,7 @@ class _NewProjectModalSheetState extends ConsumerState<NewProjectModalSheet> {
                         ),
                       ),
                       CustomButton(
-                        text: 'Create',
+                        text: AppLocalizations.of(context)!.create,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             HapticFeedback.mediumImpact();

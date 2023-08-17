@@ -8,6 +8,7 @@ import 'package:todo_app/features/todo/domain/entity/project.dart';
 import 'package:todo_app/features/todo/domain/entity/todo_item.dart';
 import 'package:todo_app/features/todo/presentation/util/dialog_utils.dart';
 import 'package:todo_app/features/todo/presentation/widget/todo_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TodoListScreen extends ConsumerWidget {
   final int? projectId;
@@ -30,7 +31,12 @@ class TodoListScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(child: Text('Task list', style: Theme.of(context).textTheme.titleSmall)),
+              Center(
+                child: Text(
+                  AppLocalizations.of(context)!.taskList,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
               const SizedBox(height: 50),
               SizedBox(
                 width: 250,
@@ -56,7 +62,7 @@ class TodoListScreen extends ConsumerWidget {
                 error: (error, _) => Expanded(
                   child: Center(
                     child: Text(
-                      'There was an error...',
+                      AppLocalizations.of(context)!.thereWasAnError,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
@@ -77,8 +83,8 @@ class TodoListScreen extends ConsumerWidget {
   ) async {
     final deleteConfirmed = await DialogUtils.showConfirmationDialog(
       context: context,
-      title: 'Delete project',
-      content: 'Are you sure to delete ${selectedProject.title}?',
+      title: AppLocalizations.of(context)!.deleteProject,
+      content: AppLocalizations.of(context)!.deleteProjectDescription(selectedProject.title),
     );
     if (deleteConfirmed) {
       await ref.read(projectProvider).deleteProject(selectedProject);
@@ -121,8 +127,8 @@ class TasksList extends ConsumerWidget {
           ),
           TextButton(
             onPressed: onDeletePressed,
-            child: const Text(
-              'Delete project',
+            child: Text(
+              AppLocalizations.of(context)!.deleteProject,
               style: errorTextStyle,
             ),
           ),
@@ -157,12 +163,15 @@ class NoTasks extends ConsumerWidget {
                     width: 200,
                   ),
             const SizedBox(height: 20),
-            Text('Good job, no tasks left!', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              AppLocalizations.of(context)!.goodJobNoTasksLeft,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const Spacer(),
             TextButton(
               onPressed: onDeletePressed,
               child: Text(
-                'Delete project',
+                AppLocalizations.of(context)!.deleteProject,
                 style: Theme.of(context).textTheme.error,
               ),
             ),

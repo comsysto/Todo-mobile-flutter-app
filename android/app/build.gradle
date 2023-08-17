@@ -47,7 +47,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "kisic.filip.todo_app"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

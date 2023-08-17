@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/style/text_styles.dart';
@@ -28,16 +29,19 @@ class StatisticsWidget extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(20.0),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
             child: Text(
-              'Statistics',
+              AppLocalizations.of(context)!.statisticsCard,
               style: statisticsCardSmallTextStyle,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Text('Active projects', style: statisticsCardTitleTextStyle),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(
+              AppLocalizations.of(context)!.statisticsCardTitle,
+              style: statisticsCardTitleTextStyle,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
@@ -46,7 +50,10 @@ class StatisticsWidget extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.baseline,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Tasks completed', style: statisticsCardTextStyle),
+                Text(
+                  AppLocalizations.of(context)!.statisticsCardSubtitle,
+                  style: statisticsCardTextStyle,
+                ),
                 Text(
                   completedTodoState.asData!.value.toString(),
                   style: statisticsCardNumberTextStyle,

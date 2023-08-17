@@ -1,0 +1,47 @@
+{
+    "userGreeting": "Hello {userName}!",
+    "@userGreeting": {
+        "description": "A user greeting",
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Phillip"
+            }
+        }
+    },
+    "softwareEngineer": "Software engineer",
+    "homeScreenTitle": "Let's make habits\ntogether",
+    "statisticsCard": "Statistics",
+    "statisticsCardTitle": "Active projects",
+    "statisticsCardSubtitle": "Tasks completed",
+    "projects": "Projects",
+    "everythingDone": "Everything done",
+    "newTask": "New task",
+    "newTaskTitle": "New challange to complete",
+    "title": "Title",
+    "dueDate": "Due date",
+    "chooseProject": "Choose project",
+    "chooseProjectValidation": "Please select a project",
+    "newWord": "New",
+    "cancel": "Cancel",
+    "create": "Create",
+    "projectNameValidation": "Project name cannot be empty",
+    "newProject": "New project",
+    "deleteProject": "Delete project",
+    "deleteProjectDescription": "Are you sure to delete {projectName}?",
+    "shortDescription": "Short description",
+    "noTasks": "No tasks",
+    "nTasks": "{count, plural, =1{1 task} other{{count} tasks}}",
+    "taskList": "Task list",
+    "thereWasAnError": "There was an error",
+    "goodJobNoTasksLeft": "Good job, no tasks left!",
+    "settings": "Settings",
+    "lightTheme": "Light theme",
+    "darkTheme": "Dark theme",
+    "language": "Language",
+    "english": "English",
+    "german": "German",
+    "croatian": "Croatian",
+    "changeLanguage": "Change language",
+    "copyrightMessage": "Coded with love at Comsysto Reply ©️"
+}

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/style/colors.dart';
+import 'package:todo_app/features/settings/presentation/widget/change_language_button.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -19,32 +21,51 @@ class SettingsScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Settings',
+                AppLocalizations.of(context)!.settings,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Light theme',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  CupertinoSwitch(
-                    trackColor: secondaryColorLight,
-                    activeColor: Colors.black,
-                    value: isDarkMode,
-                    onChanged: (value) => ref.read(appThemeProvider).updateAppTheme(value),
-                  ),
-                  Text(
-                    'Dark theme',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  )
-                ],
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.lightTheme,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        CupertinoSwitch(
+                          trackColor: secondaryColorLight,
+                          activeColor: Colors.black,
+                          value: isDarkMode,
+                          onChanged: (value) => ref.read(appThemeProvider).updateAppTheme(value),
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.darkTheme,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text(AppLocalizations.of(context)!.language),
+                        const Spacer(),
+                        const ChangeLanguageButton(),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const Spacer(),
               Text(
-                'Coded with love at Comsysto Reply ©️',
+                AppLocalizations.of(context)!.copyrightMessage,
                 style: Theme.of(context).textTheme.displaySmall,
               )
             ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_button.dart';
@@ -53,13 +54,18 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: Text('New task', style: Theme.of(context).textTheme.titleSmall)),
+                  Center(
+                      child: Text(AppLocalizations.of(context)!.newTask,
+                          style: Theme.of(context).textTheme.titleSmall)),
                   const SizedBox(height: 50),
-                  Text('New challange to\ncomplete', style: Theme.of(context).textTheme.titleLarge),
+                  Text(
+                    AppLocalizations.of(context)!.newTaskTitle,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                   const SizedBox(height: 30),
                   CustomTextField(
                     controller: titleController,
-                    labelText: 'Title',
+                    labelText: AppLocalizations.of(context)!.title,
                     validator: (value) => _validateTitle(value),
                   ),
                   const SizedBox(height: 15),
@@ -85,7 +91,10 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                         child: Row(
                           children: [
                             Icon(Icons.add, color: Theme.of(context).colorScheme.secondary),
-                            Text('New', style: Theme.of(context).textTheme.displaySmall),
+                            Text(
+                              AppLocalizations.of(context)!.newWord,
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
                           ],
                         ),
                       ),
@@ -100,7 +109,7 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                         child: TextButton(
                           onPressed: () => _popToTaskScreen(context),
                           child: Text(
-                            'Cancel',
+                            AppLocalizations.of(context)!.cancel,
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                   color: Theme.of(context).colorScheme.error,
                                 ),
@@ -108,7 +117,7 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
                         ),
                       ),
                       CustomButton(
-                        text: 'Create',
+                        text: AppLocalizations.of(context)!.create,
                         onPressed: () {
                           HapticFeedback.mediumImpact();
                           _createTask(
@@ -131,12 +140,8 @@ class _NewTodoScreenState extends ConsumerState<NewTodoScreen> {
     );
   }
 
-  String? _validateTitle(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Project name cannot be empty';
-    }
-    return null;
-  }
+  String? _validateTitle(final String? value) =>
+      value == null || value.isEmpty ? AppLocalizations.of(context)!.projectNameValidation : null;
 
   Future<void> _showDateTimePicker(
     final BuildContext context,

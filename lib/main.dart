@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/core/route_generator.dart';
@@ -28,6 +29,8 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(notificationServiceProvider).init();
     final isDarkThemeState = ref.watch(appThemeProvider).isDarkMode;
+    final currentLocale = ref.watch(localeProvider).currentLocale;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
@@ -35,6 +38,9 @@ class MainApp extends ConsumerWidget {
       themeMode: isDarkThemeState ? ThemeMode.dark : ThemeMode.light,
       initialRoute: RouteGenerator.homeScreen,
       onGenerateRoute: RouteGenerator.generateRoute,
+      locale: currentLocale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

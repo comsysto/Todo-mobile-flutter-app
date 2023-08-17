@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/core/route_generator.dart';
@@ -39,7 +40,7 @@ class ProjectCard extends ConsumerWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Text(
-                _getProjectTaskLength(),
+                _getProjectTaskLength(context),
                 style: Theme.of(context).textTheme.displaySmall,
               ),
             ],
@@ -69,13 +70,14 @@ class ProjectCard extends ConsumerWidget {
         .reduce((current, next) => current.isAfter(next) ? current : next);
   }
 
-  String _getProjectTaskLength() {
+  String _getProjectTaskLength(final BuildContext context) {
     if (project.todoList.isEmpty || project.todoList.where((todo) => !todo.isDone).isEmpty) {
-      return 'No tasks';
-    } else if (project.todoList.where((todo) => !todo.isDone).toList().length == 1) {
-      return '1 task remaining';
-    } else {
-      return '${project.todoList.where((todo) => !todo.isDone).toList().length} tasks remaining';
+      return AppLocalizations.of(context)!.noTasks;
+    }
+    else {
+      return AppLocalizations.of(context)!.nTasks(
+        project.todoList.where((todo) => !todo.isDone).toList().length,
+      );
     }
   }
 

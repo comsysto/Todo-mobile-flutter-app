@@ -4,6 +4,7 @@ import 'package:todo_app/features/common/presentation/style/colors.dart';
 import 'package:todo_app/features/common/presentation/style/theme.dart';
 import 'package:todo_app/features/common/presentation/widget/custom_text_field.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProjectPicker extends HookConsumerWidget {
   final List<Project> projectList;
@@ -34,7 +35,7 @@ class ProjectPicker extends HookConsumerWidget {
         isDense: true,
         suffixIconColor: Theme.of(context).iconTheme.color,
         label: Text(
-          'Choose project',
+          AppLocalizations.of(context)!.chooseProject,
           style: Theme.of(context).textTheme.displayMedium!.copyWith(
                 color: Theme.of(context).iconTheme.color,
               ),
@@ -85,7 +86,7 @@ class ProjectPicker extends HookConsumerWidget {
         ),
         errorStyle: Theme.of(context).textTheme.error,
       ),
-      validator: _validateProject,
+      validator: (value) => _validateProject(context, value),
       items: projectList
           .map<DropdownMenuItem<Project>>(
             (project) => DropdownMenuItem(
@@ -98,5 +99,6 @@ class ProjectPicker extends HookConsumerWidget {
     );
   }
 
-  String? _validateProject(value) => value == null ? 'Please select a project' : null;
+  String? _validateProject(final BuildContext context, final Project? value) =>
+      value == null ? AppLocalizations.of(context)!.chooseProjectValidation : null;
 }

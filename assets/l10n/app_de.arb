@@ -1,0 +1,47 @@
+{
+    "userGreeting": "Hallo {userName}!",
+    "@userGreeting": {
+        "description": "A user greeting",
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Phillip"
+            }
+        }
+    },
+    "softwareEngineer": "Softwareentwickler",
+    "homeScreenTitle": "Lasst uns gemeinsam\nGewohnheiten schaffen",
+    "statisticsCard": "Statistiken",
+    "statisticsCardTitle": "Aktive Projekte",
+    "statisticsCardSubtitle": "Aufgaben erledigt",
+    "projects": "Projekte",
+    "everythingDone": "Alles erledigt",
+    "newTask": "Neue Aufgabe",
+    "newTaskTitle": "Neue Herausforderung\nzum Abschließen",
+    "title": "Titel",
+    "dueDate": "Fälligkeitsdatum",
+    "chooseProject": "Projekt auswählen",
+    "chooseProjectValidation": "Bitte wählen Sie ein Projekt aus",
+    "newWord": "Neu",
+    "cancel": "Stornieren",
+    "create": "Erstellen",
+    "projectNameValidation": "Der Projektname darf nicht leer sein",
+    "newProject": "Neues Projekt",
+    "deleteProject": "Projekt löschen",
+    "deleteProjectDescription": "Möchten Sie das {projectName} wirklich löschen?",
+    "shortDescription": "Kurze Beschreibung",
+    "noTasks": "Keine Aufgaben",
+    "nTasks": "{count, plural, =1{1 Aufgabe} other{{count} Aufgaben}}",
+    "taskList": "Aufgabenliste",
+    "thereWasAnError": "Es gab einen Fehler",
+    "goodJobNoTasksLeft": "Gute Arbeit, keine Aufgaben mehr!",
+    "settings": "Einstellungen",
+    "lightTheme": "Lichtthema",
+    "darkTheme": "Dunkles Thema",
+    "language": "Sprache",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "croatian": "Kroatisch",
+    "changeLanguage": "Sprache ändern",
+    "copyrightMessage": "Mit Liebe gemacht bei Comsysto Reply ©️"
+}

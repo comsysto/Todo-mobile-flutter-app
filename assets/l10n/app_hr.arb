@@ -1,0 +1,47 @@
+{
+    "userGreeting": "Pozdrav {userName}!",
+    "@userGreeting": {
+        "description": "A user greeting",
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Phillip"
+            }
+        }
+    },
+    "softwareEngineer": "Razvojni inženjer",
+    "homeScreenTitle": "Hajde, stvorimo navike\nzajedno",
+    "statisticsCard": "Statistika",
+    "statisticsCardTitle": "Aktivni projekti",
+    "statisticsCardSubtitle": "Broj završenih zadataka",
+    "projects": "Projekti",
+    "everythingDone": "Sve je dovršeno",
+    "newTask": "Novi zadatak",
+    "newTaskTitle": "Novi izazov za savladati",
+    "title": "Naziv",
+    "dueDate": "Datum završetka",
+    "chooseProject": "Odaberi projekt",
+    "chooseProjectValidation": "Odaberite projekt",
+    "newWord": "Novi",
+    "cancel": "Odustani",
+    "create": "Kreiraj",
+    "projectNameValidation": "Ime projekta ne smije biti prazno",
+    "newProject": "Novi projekt",
+    "deleteProject": "Izbriši projekt",
+    "deleteProjectDescription": "Želite li sigurno izbrisati {projectName}?",
+    "shortDescription": "Kratki opis",
+    "noTasks": "Nema zadataka",
+    "nTasks": "{count, plural, =1{1 zadatak} =2{2 zadatka} few{{count} zadatka} other{{count} zadataka}}",
+    "taskList": "Lista zadataka",
+    "thereWasAnError": "Dogodila se pogreška",
+    "goodJobNoTasksLeft": "Bravo, nema više zadataka!",
+    "settings": "Postavke",
+    "lightTheme": "Svijetla tema",
+    "darkTheme": "Tamna tema",
+    "language": "Jezik",
+    "english": "Engleski",
+    "german": "Njemački",
+    "croatian": "Hrvatski",
+    "changeLanguage": "Promijeni jezik",
+    "copyrightMessage": "Kreirano sa zadovoljstvom u Comsysto Replyu ©️"
+}

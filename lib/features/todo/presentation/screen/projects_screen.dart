@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/todo/domain/entity/project.dart';
@@ -41,8 +42,14 @@ class ProjectsScreen extends ConsumerWidget {
                   ),
                   Column(
                     children: [
-                      Text('Hello Phillip!', style: Theme.of(context).textTheme.titleSmall),
-                      Text('Software engineer', style: Theme.of(context).textTheme.bodySmall),
+                      Text(
+                        AppLocalizations.of(context)!.userGreeting('Phillip'),
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.softwareEngineer,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -52,13 +59,16 @@ class ProjectsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 30),
               Text(
-                'Let\'s make habits\ntogether',
+                AppLocalizations.of(context)!.homeScreenTitle,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 30),
               const StatisticsWidget(),
               const SizedBox(height: 20),
-              Text('Projects', style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                AppLocalizations.of(context)!.projects,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 10),
               projectListState!.when(
                 data: (projectList) =>
@@ -104,17 +114,20 @@ class NoProjects extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            isDarkThemeState ?
-            const Image(
-              image: AssetImage('assets/images/everything_done_dark.png'),
-              width: 150,
-            ) :
-            const Image(
-              image: AssetImage('assets/images/everything_done_light.png'),
-              width: 150,
-            ),
+            isDarkThemeState
+                ? const Image(
+                    image: AssetImage('assets/images/everything_done_dark.png'),
+                    width: 150,
+                  )
+                : const Image(
+                    image: AssetImage('assets/images/everything_done_light.png'),
+                    width: 150,
+                  ),
             const SizedBox(height: 10),
-            Text('Everything done!', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              AppLocalizations.of(context)!.everythingDone,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ],
         ),
       ),
