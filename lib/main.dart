@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,13 +14,15 @@ void main() async {
   final sharedPrefsInstance = await SharedPreferences.getInstance();
   final isarInstance = await initIsar();
   await initHive();
-  runApp(ProviderScope(
-    overrides: [
-      sharedPreferencesProvider.overrideWithValue(sharedPrefsInstance),
-      isarDatasourceProvider.overrideWithValue(isarInstance),
-    ],
-    child: const MainApp(),
-  ));
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPrefsInstance),
+        isarDatasourceProvider.overrideWithValue(isarInstance),
+      ],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends ConsumerWidget {
@@ -30,6 +33,10 @@ class MainApp extends ConsumerWidget {
     ref.read(notificationServiceProvider).init();
     final isDarkThemeState = ref.watch(appThemeProvider).isDarkMode;
     final currentLocale = ref.watch(localeProvider).currentLocale;
+
+    SystemChrome.setSystemUIOverlayStyle(
+      isDarkThemeState ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

@@ -1,6 +1,4 @@
-- Localization
 - Dart documentation for some interfaces and usecases
-- Animations
 - Show due date on todo card
 - Cancel notification if task done or project deleted
 - Android group notifications

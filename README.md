@@ -16,9 +16,7 @@ This one is pretty simple as it should be. It consists of repository definition 
 For state management, Riverpod is used here. It does everything for the presentation logic and controls the screens and widgets as well as reacting to the user actions.
 
 ## TODO list:
-- Localization
 - Dart documentation for some interfaces
-- Animations
 - Show due date on todo card
 - Cancel notification if task done or project deleted
 - Android group notifications

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:todo_app/di.dart';
 import 'package:todo_app/features/common/presentation/style/text_styles.dart';
@@ -42,7 +43,7 @@ class TodoListScreen extends ConsumerWidget {
                 width: 250,
                 child: Text(selectedProject.title, style: Theme.of(context).textTheme.titleLarge),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               todoListState!.when(
                 data: (todoList) => todoList.isEmpty
                     ? NoTasks(
@@ -97,47 +98,6 @@ class TodoListScreen extends ConsumerWidget {
   }
 }
 
-class TasksList extends ConsumerWidget {
-  final int selectedProjectId;
-  final List<TodoItem> todoList;
-  final VoidCallback onDeletePressed;
-
-  const TasksList({
-    super.key,
-    required this.selectedProjectId,
-    required this.todoList,
-    required this.onDeletePressed,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.separated(
-              physics: const ClampingScrollPhysics(),
-              itemBuilder: (_, index) => TodoCard(
-                projectId: selectedProjectId,
-                todoItem: todoList[index],
-              ),
-              separatorBuilder: (_, index) => const SizedBox(height: 15),
-              itemCount: todoList.length,
-            ),
-          ),
-          TextButton(
-            onPressed: onDeletePressed,
-            child: Text(
-              AppLocalizations.of(context)!.deleteProject,
-              style: errorTextStyle,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class NoTasks extends ConsumerWidget {
   final VoidCallback onDeletePressed;
 
@@ -177,6 +137,61 @@ class NoTasks extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TasksList extends HookWidget {
+  final int selectedProjectId;
+  final List<TodoItem> todoList;
+  final VoidCallback onDeletePressed;
+
+  const TasksList({
+    super.key,
+    required this.selectedProjectId,
+    required this.todoList,
+    required this.onDeletePressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final animationKey = useMemoized(GlobalKey<AnimatedListState>.new, const []);
+    return Expanded(
+      child: Column(
+        children: [
+          Expanded(
+            child: AnimatedList(
+              key: animationKey,
+              physics: const ClampingScrollPhysics(),
+              itemBuilder: (_, index, animation) => TodoCard(
+                projectId: selectedProjectId,
+                todoItem: todoList[index],
+                animation: animation,
+                onCompleteAnimate: () => _removeTask(animationKey, index),
+              ),
+              initialItemCount: todoList.length,
+            ),
+          ),
+          TextButton(
+            onPressed: onDeletePressed,
+            child: Text(
+              AppLocalizations.of(context)!.deleteProject,
+              style: errorTextStyle,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _removeTask(final GlobalKey<AnimatedListState> animationKey, final int index) async {
+    animationKey.currentState!.removeItem(
+      index,
+      (context, animation) => TodoCard(
+        animation: animation,
+        projectId: selectedProjectId,
+        todoItem: todoList[index],
       ),
     );
   }

@@ -37,19 +37,15 @@ class SettingsScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.lightTheme,
+                          AppLocalizations.of(context)!.darkTheme,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         CupertinoSwitch(
                           trackColor: secondaryColorLight,
-                          activeColor: Colors.black,
+                          activeColor: secondaryColorDark,
                           value: isDarkMode,
                           onChanged: (value) => ref.read(appThemeProvider).updateAppTheme(value),
                         ),
-                        Text(
-                          AppLocalizations.of(context)!.darkTheme,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        )
                       ],
                     ),
                     const SizedBox(height: 10),
